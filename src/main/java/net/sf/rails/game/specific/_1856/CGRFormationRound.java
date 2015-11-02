@@ -540,20 +540,30 @@ public class CGRFormationRound extends SwitchableUIRound {
                     // Only add if the CGR does not already have the same bonus
                     if (cgr.getBonuses() != null) {
                         for (Bonus b : cgr.getBonuses()) {
-                            if (b.equals(bonus)) {
+                            /* EBA : previous code was :  if (b.equals(bonus)) { 
+                            but cannot use .equals to compare one tunnel with another as their names are different
+                            eg one is SpecialProperty_8 and the other is SpecialProperty_7
+                            in 1856, it suffices however to test if the location is the same to determine if the bonus is the same. */ 
+                            if (b.getLocations().equals(bonus.getLocations())) {
                                 // Remove this duplicate bonus token.
                                 // Check if it should be made available again.
+                                /* EBA : furthermore, I don't get the full meaning of the code just below, but it seems to me
+                                that it's "bonus" and not "b" that should be made sellable again
+                                The result is probably the same, but for code consistency, changing "b" to "bonus" below */
                                 List<SellBonusToken> commonSP = gameManager.getSpecialProperties(SellBonusToken.class, true);
                                 if (commonSP != null) {
                                     for (SellBonusToken sp : commonSP) {
-                                        if (sp.getId().equalsIgnoreCase(b.getName())) {
+                                        // EBA : previous code was : if (sp.getId().equalsIgnoreCase(b.getName())) {
+                                        if (sp.getId().equalsIgnoreCase(bonus.getName())) {
                                             sp.makeResellable();
-                                            log.debug("BonusToken "+b.getName()+" made sellable again");
+                                            // EBA : previous code was : log.debug("BonusToken "+b.getName()+" made sellable again");
+                                            log.debug("BonusToken "+bonus.getName()+" made sellable again");
                                             break;
                                         }
                                     }
                                 }
-                                log.debug("Duplicate BonusToken "+b.getName()+" not added to "+ cgr.getId());
+                                // EBA : previous code was : log.debug("Duplicate BonusToken "+b.getName()+" not added to "+ cgr.getId());
+                                log.debug("Duplicate BonusToken "+bonus.getName()+" not added to "+ cgr.getId());
                                 continue bonuses;
                             }
                         }
