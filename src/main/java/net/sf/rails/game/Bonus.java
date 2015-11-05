@@ -87,8 +87,7 @@ public class Bonus implements Closeable, RevenueStaticModifier {
         RailsRoot.getInstance().getRevenueManager().removeStaticModifier(this);
     }
 
-    
-    public boolean equals (Bonus b) {
+    public boolean equalsBonus(Bonus b) {
         return (b.name.equals(name))
                && b.value == value;
     }

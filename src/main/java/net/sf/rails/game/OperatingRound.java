@@ -2240,7 +2240,7 @@ public class OperatingRound extends Round implements Observer {
         Currency.wire(operatingCompany.value(), cost, seller);
 
         operatingCompany.value().addBonus(
-                new Bonus(operatingCompany.value(), sbt.getId(),
+                new Bonus(operatingCompany.value(), sbt.getName(),
                         sbt.getValue(), sbt.getLocations()));
 
         ReportBuffer.add(this, LocalText.getText("BuysBonusTokenFrom",

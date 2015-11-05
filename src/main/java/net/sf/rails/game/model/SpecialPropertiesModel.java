@@ -61,7 +61,7 @@ public class SpecialPropertiesModel extends RailsModel implements Triggerable {
         if (getParent() instanceof PublicCompany && property instanceof LocatedBonus) {
             PublicCompany company = (PublicCompany)getParent();
             LocatedBonus locBonus = (LocatedBonus)property;
-            Bonus bonus = new Bonus(company, locBonus.getId(), locBonus.getValue(),
+            Bonus bonus = new Bonus(company, locBonus.getName(), locBonus.getValue(),
                     locBonus.getLocations());
             company.addBonus(bonus);
             ReportBuffer.add(this, LocalText.getText("AcquiresBonus",
