@@ -52,45 +52,26 @@
 	<!-- Yellow tiles -->
 	<Tile id="3" quantity="1" />
 	<Tile id="4" quantity="2" />
-	<Tile id="5" quantity="3" />
-	<Tile id="6" quantity="3"/>
-	<Tile id="7" quantity="4">
+	<Tile id="5">
+		<IfOption name="NumberOfPlayers" value="2">
+			<Attributes quantity="2"></Attributes></IfOption>
+		<IfOption name="NumberOfPlayers" value="3">
+			<Attributes quantity="3"></Attributes></IfOption></Tile>
+	<Tile id="6" quantity="3">
+		<IfOption name="NumberOfPlayers" value="2">
+			<Attributes quantity="2"></Attributes></IfOption>
+		<IfOption name="NumberOfPlayers" value="3">
+			<Attributes quantity="3"></Attributes></IfOption></Tile>
+	<Tile id="7" quantity="1">
 		<Upgrade id="18,26,27,28,29" />
 	</Tile>
-	<Tile id="8" quantity="8">
+	<Tile id="8" quantity="2">
 		<Upgrade id="16,19,23,24,25,28,29" />
 	</Tile>
-	<Tile id="9" quantity="7">
+	<Tile id="9" quantity="2">
 		<Upgrade id="18,19,20,23,24,26,27" />
 	</Tile>
-	<Tile id="55" quantity="1">
-        <IfOption name="Variant" value="Coalfields,Coalfields&amp;Reading">
-            <Upgrade id="1717" hex="G17" />
-        </IfOption>
-    </Tile>
-	<Tile id="56" quantity="1">
-        <IfOption name="Variant" value="Coalfields,Coalfields&amp;Reading">
-            <Upgrade id="1717" hex="G17" />
-        </IfOption>
-    </Tile>
-	<Tile id="57">
-		<IfOption name="Variant" value="Basegame,Pere Marquette,Reading,Simple">
-			<Attributes quantity="4"/>
-		</IfOption>
-        <IfOption name="Variant" value="Wabash">
-            <Attributes quantity="5"/>
-        </IfOption>
-		<IfOption name="Variant" value="Coalfields,Coalfields&amp;Reading">
-            <Attributes quantity="6"/>
-		</IfOption>
-		<Upgrade id="14,15" />
-	</Tile>
 	<Tile id="58" quantity="2" />
-	<Tile id="69" quantity="1">
-        <IfOption name="Variant" value="Coalfields,Coalfields&amp;Reading">
-            <Upgrade id="1717" hex="G17" />
-        </IfOption>
-    </Tile>
 	
 	<!-- Green tiles -->
 	<Tile id="14">
