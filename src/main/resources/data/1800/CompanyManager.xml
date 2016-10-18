@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<CompanyManager>
+	<CompanyType name="Private" class="net.sf.rails.game.PrivateCompany">
+		<ClosingConditions>
+            <Phase>5</Phase>
+		</ClosingConditions>
+		<Tradeable toCompany="yes" lowerPriceFactor="0.5" upperPriceFactor="2.0"/>
+		<Tradeable toPlayer="yes"/>	
+	</CompanyType>
+	<CompanyType name="Public" class="net.sf.rails.game.PublicCompany">
+		<CanBuyPrivates/>
+		<PoolPaysOut/>
+		<Float percentage="60"/>
+		<ShareUnit percentage="10"/>
+		<BaseTokens>
+			<!-- HomeBase lay options: "whenStarted", "whenFloated", "firstOR" (default) -->
+			<HomeBase lay="firstOR"/>
+			<!-- LayCost methods: only "sequence" (1830 style) implemented so far (default) -->
+			<LayCost method="sequence" cost="0,40,100"/>
+		</BaseTokens>
+		<Certificate type="President" shares="2"/>
+		<Certificate shares="1" number="8"/>
+		<Trains limit="4,3,2"/>
+        <CanUseSpecialProperties/>
+        <IfOption name="Variant" value="Coalfields,Coalfields&amp;Reading">
+			<CanUseSpecialProperties/>
+			<SpecialProperties>
+				<SpecialProperty condition="ifOwnedByCompany" when="orTurn" class="net.sf.rails.game.special.SpecialRight">
+					<SpecialRight name="Coalfields" cost="140" location="L10"/>
+				</SpecialProperty>
+			</SpecialProperties>
+        </IfOption>
+	</CompanyType>
+	<Company name="MT" type="Private" basePrice="20" revenue="5"
+			longname="Midland Terminal">
+	</Company>
+	<Company name="D&amp;SL" type="Private" basePrice="70" revenue="10"
+			longname="Denver &amp; Salt Lake">
+	</Company>
+	<Company name="RGS" type="Private" basePrice="150" revenue="20"
+		longname="Rio Grande &amp; Southern">
+	</Company>
+	
+	<!-- Note two supported colour specification formats:
+	     RGB decimal with commas and RGB hexadecimal without commas -->
+	<Company name="D&amp;RGW" type="Public" tokens="3" fgColour="000000" bgColour="60E060"
+			longname="Denver &amp; Rio Grande Western">
+		<Home hex="E1"/>
+	</Company>	     
+	<Company name="C&amp;S" type="Public" tokens="3" fgColour="255,255,255" bgColour="0,0,255"
+			longname="Colorado &amp; Southern">
+		<FirstTrainCloses type="Private" name="RGS"/>
+		<Home hex="E5"/>
+	</Company>
+	
+	<StartPacket roundClass="net.sf.rails.game.StartRound_1830">
+		<Bidding initial="20" minimum="5" increment="1"/>
+		<Item name="MT" type="Private" basePrice="20"/>
+		<Item name="D&amp;SL" type="Private" basePrice="70"/>
+		<Item name="RGS" type="Private" basePrice="150"/>
+	</StartPacket>
+</CompanyManager>

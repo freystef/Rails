@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Supported games -->
 <GamesList>
+  <Game name="1800">
+  	<Players minimum="2" maximum="3"></Players></Game>
   <Game name="1830">
     <Note>Fully playable</Note>
     <Description>1830 - The Game of Railroads and Robber Barons
@@ -277,4 +279,5 @@ Icon sets are taken from the following sites:&lt;ul&gt;
 	 under a Creative Commons Attribution 3.0 License (&lt;a href="http://creativecommons.org/licenses/by/3.0/us/"&gt;http://creativecommons.org/licenses/by/3.0/us/&lt;/a&gt;)
 	&lt;/ul&gt;
 	&lt;/html&gt;</Credits>
+	
 </GamesList>
