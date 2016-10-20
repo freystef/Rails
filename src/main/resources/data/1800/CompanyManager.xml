@@ -10,26 +10,20 @@
 	<CompanyType name="Public" class="net.sf.rails.game.PublicCompany">
 		<CanBuyPrivates/>
 		<PoolPaysOut/>
-		<Float percentage="60"/>
+		<IPOPaysOut/>
+		<Payout split="allowed" mustExceedPriceToMove="yes"/>
+		<Float percentage="50"/>
 		<ShareUnit percentage="10"/>
 		<BaseTokens>
 			<!-- HomeBase lay options: "whenStarted", "whenFloated", "firstOR" (default) -->
-			<HomeBase lay="firstOR"/>
+			<HomeBase lay="whenFloated"/>
 			<!-- LayCost methods: only "sequence" (1830 style) implemented so far (default) -->
 			<LayCost method="sequence" cost="0,40,100"/>
 		</BaseTokens>
-		<Certificate type="President" shares="2"/>
-		<Certificate shares="1" number="8"/>
+		<Certificate type="President" shares="4"/>
+		<Certificate shares="1" number="6"/>
 		<Trains limit="4,3,2"/>
         <CanUseSpecialProperties/>
-        <IfOption name="Variant" value="Coalfields,Coalfields&amp;Reading">
-			<CanUseSpecialProperties/>
-			<SpecialProperties>
-				<SpecialProperty condition="ifOwnedByCompany" when="orTurn" class="net.sf.rails.game.special.SpecialRight">
-					<SpecialRight name="Coalfields" cost="140" location="L10"/>
-				</SpecialProperty>
-			</SpecialProperties>
-        </IfOption>
 	</CompanyType>
 	<Company name="MT" type="Private" basePrice="20" revenue="5"
 			longname="Midland Terminal">
@@ -39,6 +33,7 @@
 	</Company>
 	<Company name="RGS" type="Private" basePrice="150" revenue="20"
 		longname="Rio Grande &amp; Southern">
+		<Info key="ComesWithCertificate" parm="D&amp;RGW,10"/>
 	</Company>
 	
 	<!-- Note two supported colour specification formats:
@@ -49,14 +44,15 @@
 	</Company>	     
 	<Company name="C&amp;S" type="Public" tokens="3" fgColour="255,255,255" bgColour="0,0,255"
 			longname="Colorado &amp; Southern">
-		<FirstTrainCloses type="Private" name="RGS"/>
 		<Home hex="E5"/>
 	</Company>
 	
 	<StartPacket roundClass="net.sf.rails.game.StartRound_1830">
 		<Bidding initial="20" minimum="5" increment="1"/>
 		<Item name="MT" type="Private" basePrice="20"/>
-		<Item name="D&amp;SL" type="Private" basePrice="70"/>
+		<Item name="D&amp;SL" type="Private" basePrice="70">
+			<SubItem name="D&amp;RGW" type="Public"/>
+		</Item>
 		<Item name="RGS" type="Private" basePrice="150"/>
 	</StartPacket>
 </CompanyManager>
