@@ -9,9 +9,6 @@
 	<Tile id="-1"><!-- 1 town -->
 		<Upgrade id="3,4,58"/>
 	</Tile>
-	<Tile id="-2"><!-- 2 towns -->
-		<Upgrade id="55,56,69"/>
-	</Tile>
 	<Tile id="-3"/>
 	<Tile id="-5"/>
 	<Tile id="-7"/>
@@ -52,16 +49,16 @@
 	<!-- Yellow tiles -->
 	<Tile id="3" quantity="1" />
 	<Tile id="4" quantity="2" />
-	<Tile id="5">
-		<IfOption name="NumberOfPlayers" value="2">
-			<Attributes quantity="2"></Attributes></IfOption>
+	<Tile id="5" quantity="2">
 		<IfOption name="NumberOfPlayers" value="3">
-			<Attributes quantity="3"></Attributes></IfOption></Tile>
-	<Tile id="6" quantity="3">
-		<IfOption name="NumberOfPlayers" value="2">
-			<Attributes quantity="2"></Attributes></IfOption>
+			<Attributes quantityIncrement="+1"/>
+		</IfOption>
+	</Tile>
+	<Tile id="6" quantity="2">
 		<IfOption name="NumberOfPlayers" value="3">
-			<Attributes quantity="3"></Attributes></IfOption></Tile>
+			<Attributes quantityIncrement="+1"/>
+		</IfOption>
+	</Tile>
 	<Tile id="7" quantity="1">
 		<Upgrade id="18,26,27,28,29" />
 	</Tile>
@@ -129,6 +126,8 @@
 	<Tile id="29" quantity="1">
 		<Upgrade id="39,43,45,70" />
 	</Tile>
+	<Tile id="802" quantity="1"/>
+	
 	<IfOption name="Variant" value="Basegame,Pere Marquette,Simple,Wabash">
 		<Tile id="53" quantity="2">
 			<Upgrade id="61" />

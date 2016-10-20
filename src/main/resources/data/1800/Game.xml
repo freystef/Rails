@@ -67,80 +67,25 @@
 				cities="double" if city-revenue is doubled (e.g. 1826 TGV).
 			-->
 		</Defaults>
-		<TrainType name="2" majorStops="2" cost="80" quantity="6">
-			<IfOption name="Variant" value="Coalfields,Reading,Coalfields&amp;Reading">
-                <Attributes obsoleting="yes"/>
-            </IfOption>
-            <IfOption name="Variant" value="Wabash">
-                <Attributes quantity="7"/>
-				<!-- NOTE: An alternative way to configure an extra train is: quantityIncrement="+1"
-					(the '+' is optional) -->
-            </IfOption>
+		<TrainType name="2" majorStops="2" cost="80" quantity="2">
+			<IfOption name="NumberOfPlayers" value="3">
+				<Attributes quantityIncrement="+1"/>
+			</IfOption>		
 		</TrainType>
-		<TrainType name="3" majorStops="3" cost="180" quantity="5">
+		<TrainType name="3" majorStops="3" cost="180" quantity="1">
 			<NewPhase phaseName="3"/>
-			<IfOption name="Variant"
-				value="Coalfields,Reading,Coalfields&amp;Reading">
-				<Attributes obsoleting="yes"/>
-			</IfOption>
-			<IfOption name="Variant" value="Wabash">
-				<Attributes quantity="6"/>
+			<IfOption name="NumberOfPlayers" value="3">
+				<Attributes quantityIncrement="+1"/>
 			</IfOption>
 		</TrainType>
-		<TrainType name="4" majorStops="4" cost="300" quantity="4">
+		<TrainType name="4" majorStops="4" cost="300" quantity="1">
             <NewPhase phaseName="4"/>
-			<IfOption name="Variant" value="Coalfields,Reading">
-                <Attributes obsoleting="yes" quantity="5"/>
-			</IfOption>
-			<IfOption name="Variant" value="Coalfields&amp;Reading">
-                <Attributes obsoleting="yes" quantity="6"/>
-			</IfOption>
-            <IfOption name="Variant" value="Wabash">
-                <Attributes quantity="5"/>
-            </IfOption>
+			<Attributes obsoleting="yes"/>
 		</TrainType>
-		<TrainType name="5" majorStops="5" cost="450" quantity="3">
+		<TrainType name="5" majorStops="5" cost="450" quantity="1">
             <NewPhase phaseName="5"/>
-           <IfOption name="Variant" value="Wabash">
-                <Attributes quantity="4"/>
-            </IfOption>
+			<Attributes obsoleting="yes"/>
 		</TrainType>
-		<TrainType name="6" majorStops="6" cost="630" quantity="2">
-            <NewPhase phaseName="6"/>
-			<IfOption name="WithOptional6Train" value="yes">
-				<Attributes quantity="3"/>
-			</IfOption>
-			<IfOption name="Variant" value="Coalfields,Reading">
-				<Attributes quantity="3" releasedTrain="7,D"/>
-			</IfOption>
-			<IfOption name="Variant" value="Coalfields&amp;Reading">
-				<Attributes quantity="4" releasedTrain="7,D"/>
-			</IfOption>
-            <IfOption name="Variant" value="Pere Marquette,Simple,Wabash">
-                <Attributes quantity="3"/>
-            </IfOption>
-		</TrainType>
-		<IfOption name="Variant" value="Coalfields,Reading,Coalfields&amp;Reading">
-			<TrainType name="7" majorStops="7" cost="710" quantity="2"/>
-		</IfOption>
-        <IfOption name="Variant" value="Wabash">
-            <TrainType name="7" majorStops="7" cost="830" quantity="-1">
-            	<NewPhase phaseName="D"/>
-	    </TrainType>
-        </IfOption>
-		<IfOption name="Variant" value="Basegame,2p">
-			<TrainType name="D" majorStops="99" quantity="6">
-            <NewPhase phaseName="D"/>
-				<IfOption name="Variant" value="Basegame,2p">
-					<Attributes cost="1100"/>
-					<Exchange cost="800"/>
-				</IfOption>
-				<IfOption name="UnlimitedTopTrains_D" value="yes">
-					<Attributes quantity="-1"/>
-				</IfOption>
-				<Exchange cost="800"/>
-			</TrainType>
-        </IfOption>
 	</Component>
 	<Component name="PhaseManager" class="net.sf.rails.game.PhaseManager">
 		<!-- Note: released and rusted trains are now specified per TrainType
@@ -166,16 +111,6 @@
 			<!--Privates close="yes"/-->
 			<OperatingRounds number="3"/>
 			<OffBoardRevenue step="2"/>
-		</Phase>
-		<Phase name="6">
-			<Trains rusted="3">
-				<IfOption name="Variant" value="Basegame,2p">
-					<Attributes released="D"/>
-				</IfOption>
-			</Trains>
-		</Phase>
-		<Phase name="D">
-            <Trains rusted="4"/>
 		</Phase>
 	</Component>
 	<Component name="RevenueManager" class="net.sf.rails.algorithms.RevenueManager">
