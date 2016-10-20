@@ -160,6 +160,12 @@
 <Tile colour="yellow" id="9" name="9">
 <Track from="side3" gauge="normal" to="side0"/>
 </Tile>
+<Tile colour="green" id="12" name="12">
+<Station id="city1" position="0" slots="1" type="City" value="30"/>
+<Track from="city1" gauge="normal" to="side1"/>
+<Track from="city1" gauge="normal" to="side2"/>
+<Track from="city1" gauge="normal" to="side3"/>
+</Tile>
 <Tile colour="yellow" id="58" name="58">
 <Station id="city1" position="401" type="Town" value="10"/>
 <Track from="city1" gauge="normal" to="side5"/>

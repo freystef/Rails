@@ -53,11 +53,13 @@
 	<Tile id="3" quantity="1" />
 	<Tile id="4" quantity="2" />
 	<Tile id="5" quantity="2">
+		<Upgrade id="12" />
 		<IfOption name="NumberOfPlayers" value="3">
 			<Attributes quantityIncrement="+1"/>
 		</IfOption>
 	</Tile>
 	<Tile id="6" quantity="2">
+		<Upgrade id="12" />
 		<IfOption name="NumberOfPlayers" value="3">
 			<Attributes quantityIncrement="+1"/>
 		</IfOption>
@@ -71,6 +73,7 @@
 	<Tile id="9" quantity="2">
 		<Upgrade id="18,19,20,23,24,26,27" />
 	</Tile>
+	<Tile id="12" quantity="3"/>
 	<Tile id="58" quantity="2" />
 	
 	<!-- Green tiles -->
