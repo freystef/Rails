@@ -20,6 +20,9 @@
 <Tile colour="white" id="-10" name="1 city">
 <Station id="city1" position="302" slots="1" type="City"/>
 </Tile>
+<Tile colour="white" id="pre1c" name="">
+		<Station id="city1" position="0" slots="1" type="City"/>
+	</Tile>
 <Tile colour="yellow" id="-11" name="B">
 <Station id="city1" position="0" slots="1" type="City" value="30"/>
 <Track from="city1" gauge="normal" to="side1"/>

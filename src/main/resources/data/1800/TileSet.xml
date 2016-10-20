@@ -15,6 +15,9 @@
 	<Tile id="-10"><!-- 1 city -->
 		<Upgrade id="5,6"/>
 	</Tile>
+	<Tile id="pre1c">
+		<Upgrade id="5,6"/>
+	</Tile>
 	<Tile id="-11"><!-- B yellow -->
         <IfOption name="Variant" value="Basegame,Pere Marquette,Simple,Wabash">
 			<Upgrade id="53"/>

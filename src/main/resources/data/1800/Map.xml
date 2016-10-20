@@ -12,13 +12,13 @@
 	<Hex name="C3" tile="0" cost="50"/>
 	<Hex name="D2" tile="-1"/>
 	<Hex name="D4" tile="-1"/>
-	<Hex name="E1" tile="-10"/>
+	<Hex name="E1" tile="pre1c" />
 	<Hex name="E3" tile="-20" city="Fort Collins" />
-	<Hex name="E5" tile="-10"/>
+	<Hex name="E5" tile="pre1c"/>
 	<Hex name="F2" tile="0" cost="40"/>
 	<Hex name="F4" tile="0" cost="40" />
 	<Hex name="G1" tile="-901" value="10,20,30" orientation="4"/>
-	<Hex name="G3" tile="-10" city="Denver" cost="40" />
+	<Hex name="G3" tile="pre1c" city="Denver" cost="40" />
 	<Hex name="G5" tile="-901" value="10,20,30" orientation="4"/>
 	<Hex name="I3" tile="-901" value="20,30,40" city="Colorado Springs" orientation="1"/>
 	
