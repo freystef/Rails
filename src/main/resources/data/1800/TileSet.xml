@@ -54,12 +54,14 @@
 	<Tile id="4" quantity="2" />
 	<Tile id="5" quantity="2">
 		<Upgrade id="12" />
+		<Upgrade id="802" hex="G3"/>
 		<IfOption name="NumberOfPlayers" value="3">
 			<Attributes quantityIncrement="+1"/>
 		</IfOption>
 	</Tile>
 	<Tile id="6" quantity="2">
 		<Upgrade id="12" />
+		<Upgrade id="802" hex="G3"/>
 		<IfOption name="NumberOfPlayers" value="3">
 			<Attributes quantityIncrement="+1"/>
 		</IfOption>

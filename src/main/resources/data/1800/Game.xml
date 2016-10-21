@@ -12,8 +12,7 @@
 					</IfOption>
 				</IfOption>
 			</PlayerShareLimit>			
-			<BankPoolLimit percentage="50"/>
-			<StockRound>
+			<StockRound sequence="SellBuyOrBuySell">
 				<NoSaleInFirstSR/>
 			</StockRound>
             <OperatingRound>
@@ -28,11 +27,11 @@
 	</Component>
 	<Component name="PlayerManager" class="net.sf.rails.game.PlayerManager">
 		<IfOption name="Variant" value="Basegame">
-			<Players number="2" cash="1200" certLimit="28"/>
-			<Players number="3" cash="800" certLimit="20"/>
+			<Players number="2" cash="520" certLimit="7"/>
+			<Players number="3" cash="520" certLimit="7"/>
 		</IfOption>
 		<IfOption name="Variant" value="2p">
-			<Players number="2" cash="1200" certLimit="28"/>
+			<Players number="2" cash="520" certLimit="7"/>
 		</IfOption>	</Component>
 	<Component name="Bank" class="net.sf.rails.game.financial.Bank">
         <IfOption name="Variant" value="Basegame,2p">
@@ -48,10 +47,6 @@
 	<Component name="StockMarket" class="net.sf.rails.game.financial.StockMarket" 
 		file="StockMarket.xml"/>
 	<Component name="TrainManager" class="net.sf.rails.game.TrainManager">
-		<IfOption name="Variant"
-				value="Coalfields,Reading,Coalfields&amp;Reading">
-			<Attributes ObsoleteTrainFor="ALL" />
-		</IfOption>
 		<Defaults>
 			<Reach base="stops" countTowns="yes"/>
 			<!-- Alternative values: 
@@ -67,25 +62,37 @@
 				cities="double" if city-revenue is doubled (e.g. 1826 TGV).
 			-->
 		</Defaults>
-		<TrainType name="2" majorStops="2" cost="80" quantity="2">
+		<TrainType name="2" majorStops="2" cost="180" quantity="2">
 			<IfOption name="NumberOfPlayers" value="3">
 				<Attributes quantityIncrement="+1"/>
 			</IfOption>		
 		</TrainType>
-		<TrainType name="3" majorStops="3" cost="180" quantity="1">
+		<TrainType name="3" majorStops="3" cost="300" quantity="1">
 			<NewPhase phaseName="3"/>
 			<IfOption name="NumberOfPlayers" value="3">
 				<Attributes quantityIncrement="+1"/>
 			</IfOption>
 		</TrainType>
-		<TrainType name="4" majorStops="4" cost="300" quantity="1">
+		<TrainType name="4" majorStops="4" cost="430" quantity="1">
             <NewPhase phaseName="4"/>
 			<Attributes obsoleting="yes"/>
 		</TrainType>
 		<TrainType name="5" majorStops="5" cost="450" quantity="1">
             <NewPhase phaseName="5"/>
 			<Attributes obsoleting="yes"/>
-		</TrainType>
+		</TrainType>			
+		<TrainType name="2E" majorStops="2" cost="250" quantity="2">
+            <NewPhase phaseName="6"/>
+			<Attributes obsoleting="yes"/>
+			<Reach base="stops" countTowns="no"/>
+			<Score towns="no"/>
+		</TrainType>			
+		<TrainType name="3E" majorStops="3" cost="350" quantity="1">
+            <NewPhase phaseName="6"/>
+			<Attributes obsoleting="yes"/>
+			<Reach base="stops" countTowns="no"/>
+			<Score towns="no"/>
+		</TrainType>			
 	</Component>
 	<Component name="PhaseManager" class="net.sf.rails.game.PhaseManager">
 		<!-- Note: released and rusted trains are now specified per TrainType
@@ -103,14 +110,17 @@
 			<OperatingRounds number="2"/>
 		</Phase>
 		<Phase name="4">
-            <Trains rusted="2" limitStep="2"/>
+            <Trains rusted="2"/>
+            <OffBoardRevenue step="2"/>
 		</Phase>
 		<Phase name="5">
 			<Tiles colour="yellow,green,brown"/>
-			<Trains limitStep="3"/>
+			<Trains limitStep="2"/>
 			<!--Privates close="yes"/-->
 			<OperatingRounds number="3"/>
-			<OffBoardRevenue step="2"/>
+			<OffBoardRevenue step="3"/>
+		</Phase>
+		<Phase name="6">
 		</Phase>
 	</Component>
 	<Component name="RevenueManager" class="net.sf.rails.algorithms.RevenueManager">
