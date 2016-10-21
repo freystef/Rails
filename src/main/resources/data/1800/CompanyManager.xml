@@ -22,7 +22,7 @@
 		</BaseTokens>
 		<Certificate type="President" shares="4"/>
 		<Certificate shares="1" number="6"/>
-		<Trains limit="4,3,2"/>
+		<Trains limit="2,3"/>
         <CanUseSpecialProperties/>
 	</CompanyType>
 	<Company name="MT" type="Private" basePrice="20" revenue="5"
