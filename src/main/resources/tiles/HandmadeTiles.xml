@@ -79,9 +79,9 @@
 	<Tile colour="green" id="802" name="Denver">
 		<Station id="city1" position="0" slots="2" type="City" value="40"/>
 		<Track from="city1" gauge="normal" to="side0"/>
+		<Track from="city1" gauge="normal" to="side2"/>
+		<Track from="city1" gauge="normal" to="side4"/>
 		<Track from="city1" gauge="normal" to="side5"/>
-		<Track from="city1" gauge="normal" to="side1"/>
-		<Track from="city1" gauge="normal" to="side3"/>
 	</Tile>
 
 	<Tile colour="brown" id="8887" name="Beijing">

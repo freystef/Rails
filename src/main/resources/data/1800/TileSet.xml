@@ -135,7 +135,7 @@
 		<Upgrade id="39,43,45,70" />
 	</Tile>
 	<Tile id="802" quantity="1"/>
-	
+	<Tile id="429" quantity="1"/>
 	<IfOption name="Variant" value="Basegame,Pere Marquette,Simple,Wabash">
 		<Tile id="53" quantity="2">
 			<Upgrade id="61" />
