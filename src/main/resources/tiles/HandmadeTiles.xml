@@ -3,6 +3,10 @@
 	<Tile colour="white" id="pre1c" name="">
 		<Station id="city1" position="0" slots="1" type="City"/>
 	</Tile>
+	<Tile colour="red" id="pre1oms" name="OM 1 station">
+		<Station id="city1" position="0" slots="1" type="OffMapCity" value="-1"/>
+		<Track from="city1" gauge="normal" to="side0"/>
+	</Tile>
     <Tile colour="yellow" id="-3005" name="B/V">
         <Station id="city1" position="102" slots="1" type="City" city="B/V" value="30"/>
         <Station id="city2" position="402" slots="1" type="City" city="B/V" value="30"/>

@@ -8,7 +8,7 @@
 	<IfOption name="Variant" value="2p,Basegame">
 		<Image file="1800/mapimage_2p.svg" x="15" y="8" scale=".92"></Image>
 	</IfOption>
-	<Hex name="A3" tile="-901" value="10,40,70" city="Cheyenne" orientation="1"/>
+	<Hex name="A3" tile="pre1oms" value="10,40,70" city="Cheyenne" orientation="3"/>
 	<Hex name="C3" tile="0" cost="50"/>
 	<Hex name="D2" tile="-1"/>
 	<Hex name="D4" tile="-1"/>

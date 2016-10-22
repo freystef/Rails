@@ -23,6 +23,10 @@
 <Tile colour="white" id="pre1c" name="">
 		<Station id="city1" position="0" slots="1" type="City"/>
 	</Tile>
+<Tile colour="red" id="pre1oms" name="OM 1 station">
+		<Station id="city1" position="0" slots="1" type="OffMapCity" value="-1"/>
+		<Track from="city1" gauge="normal" to="side0"/>
+	</Tile>
 <Tile colour="yellow" id="-11" name="B">
 <Station id="city1" position="0" slots="1" type="City" value="30"/>
 <Track from="city1" gauge="normal" to="side1"/>
@@ -236,13 +240,6 @@
 		<Track from="city1" gauge="normal" to="side4"/>
 		<Track from="city1" gauge="normal" to="side5"/>
 	</Tile>
-<Tile colour="green" id="429" name="429">
-<Station id="city1" position="0" slots="2" type="City" value="40"/>
-<Track from="city1" gauge="normal" to="side0"/>
-<Track from="city1" gauge="normal" to="side2"/>
-<Track from="city1" gauge="normal" to="side4"/>
-<Track from="city1" gauge="normal" to="side5"/>
-</Tile>
 <Tile colour="green" id="53" name="53">
 <Station id="city1" position="0" slots="1" type="City" value="50"/>
 <Track from="city1" gauge="normal" to="side1"/>
