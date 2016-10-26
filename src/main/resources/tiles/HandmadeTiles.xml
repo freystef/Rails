@@ -94,6 +94,19 @@
 		<Track from="city1" gauge="normal" to="side4"/>
 		<Track from="city1" gauge="normal" to="side5"/>
 	</Tile>
+	<Tile colour="brown" id="803" name="Denver">
+		<Station id="city1" position="0" slots="2" type="City" value="50"/>
+		<Track from="city1" gauge="normal" to="side0"/>
+		<Track from="city1" gauge="normal" to="side2"/>
+		<Track from="city1" gauge="normal" to="side4"/>
+		<Track from="city1" gauge="normal" to="side5"/>
+	</Tile>
+	<Tile colour="brown" id="804">
+		<Station id="city1" position="0" slots="1" type="City" value="40"/>
+		<Track from="city1" gauge="normal" to="side0"/>
+		<Track from="city1" gauge="normal" to="side1"/>
+		<Track from="city1" gauge="normal" to="side2"/>
+	</Tile>
 
 	<Tile colour="brown" id="8887" name="Beijing">
 		<Station id="city1" position="0" slots="6" type="City" city="Beijing" value="60" />
@@ -114,4 +127,30 @@
 		<Track from="city1" gauge="normal" to="side4" />
 		<Track from="city1" gauge="normal" to="side3" />
 	</Tile>
+	<Tile colour="gray" id="805" name="Denver">
+		<Station id="city1" position="0" slots="2" type="City" value="60"/>
+		<Track from="city1" gauge="normal" to="side0"/>
+		<Track from="city1" gauge="normal" to="side2"/>
+		<Track from="city1" gauge="normal" to="side4"/>
+		<Track from="city1" gauge="normal" to="side5"/>
+	</Tile>
+	<Tile colour="gray" id="806">
+		<Station id="city1" position="0" slots="1" type="Town" value="10"/>
+		<Track from="city1" gauge="normal" to="side0"/>
+		<Track from="city1" gauge="normal" to="side2"/>
+		<Track from="city1" gauge="normal" to="side3"/>
+	</Tile>
+	<Tile colour="gray" id="807">
+		<Station id="city1" position="0" slots="1" type="Town" value="10"/>
+		<Track from="city1" gauge="normal" to="side0"/>
+		<Track from="city1" gauge="normal" to="side1"/>
+		<Track from="city1" gauge="normal" to="side3"/>
+	</Tile>
+	<Tile colour="gray" id="808">
+		<Station id="city1" position="0" slots="1" type="Town" value="10"/>
+		<Track from="city1" gauge="normal" to="side0"/>
+		<Track from="city1" gauge="normal" to="side1"/>
+		<Track from="city1" gauge="normal" to="side2"/>
+	</Tile>
+	
  </Tiles>

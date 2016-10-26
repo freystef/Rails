@@ -10,7 +10,9 @@
    version="1.1"
    id="svg2"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="tile802.svg">
+   sodipodi:docname="tile802.svg"
+   width="393.17484"
+   height="341">
   <metadata
      id="metadata48">
     <rdf:RDF>
@@ -19,6 +21,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -34,169 +37,126 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:window-width="1920"
-     inkscape:window-height="1017"
+     inkscape:window-height="1003"
      id="namedview44"
      showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
      inkscape:zoom="2.36"
-     inkscape:cx="50"
-     inkscape:cy="-88.559322"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
+     inkscape:cx="0.076263581"
+     inkscape:cy="132.5"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg2" />
   <path
-     d=" M 98,0 L 294,0 L 392,170 L 294,340 L 98,340 L 0,170 Z"
-     fill="#38AC00"
-     stroke="#38AC00"
-     stroke-width="1"
-     stroke-linejoin="round"
-     id="path4" />
+     d="m 97.827854,0.93169397 197.519126,0 L 392.24315,170.5 l -96.89617,169.56831 -197.519126,0 L 0.93167983,170.5 Z"
+     id="path4"
+     inkscape:connector-curvature="0"
+     style="fill:#38ac00;stroke:#38ac00;stroke-width:1.86338794;stroke-linejoin:round" />
   <text
-     x="245"
-     y="318"
-     font-size="31"
-     font-weight="bold"
+     x="245.03551"
+     y="317.70767"
+     font-size="9"
      id="text6"
-     style="font-weight:bold;font-size:31px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:#000000">802</text>
+     style="font-size:16.77049255px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:#000000;stroke-width:1.86338794">802</text>
   <polygon
-     points="145,119 247,119 247,221 145,221"
-     fill="#FFFFFF"
-     stroke="#FFFFFF"
-     stroke-width="12"
-     id="polygon8" />
+     points="78,64 132,64 132,118 78,118 "
+     id="polygon8"
+     transform="matrix(1.863388,0,0,1.863388,0.93167983,0.93169397)"
+     style="fill:#ffffff;stroke:#ffffff;stroke-width:6" />
   <circle
-     cx="145"
-     cy="170"
-     r="51"
-     fill="#FFFFFF"
-     stroke="#FFFFFF"
-     stroke-width="12"
-     id="circle10" />
+     cx="146.27596"
+     cy="170.5"
+     r="50.311474"
+     id="circle10"
+     style="fill:#ffffff;stroke:#ffffff;stroke-width:11.18032742" />
   <circle
-     cx="247"
-     cy="170"
-     r="51"
-     fill="#FFFFFF"
-     stroke="#FFFFFF"
-     stroke-width="12"
-     id="circle12" />
+     cx="246.8989"
+     cy="170.5"
+     r="50.311474"
+     id="circle12"
+     style="fill:#ffffff;stroke:#ffffff;stroke-width:11.18032742" />
   <path
-     d="M 196,170 L 196,0"
-     fill="none"
-     stroke="#FFFFFF"
-     stroke-width="34"
-     stroke-linecap="butt"
-     stroke-linejoin="round"
-     id="path14" />
+     d="M 49.379767,254.35246 196.58742,170.5"
+     id="path14"
+     inkscape:connector-curvature="0"
+     style="fill:none;stroke:#ffffff;stroke-width:33.54098511;stroke-linecap:butt;stroke-linejoin:round" />
   <path
-     d="M 196,170 L 343,255"
-     fill="none"
-     stroke="#FFFFFF"
-     stroke-width="34"
-     stroke-linecap="butt"
-     stroke-linejoin="round"
-     id="path16" />
+     d="M 49.379767,86.647545 196.58742,170.5"
+     id="path16"
+     inkscape:connector-curvature="0"
+     style="fill:none;stroke:#ffffff;stroke-width:33.54098511;stroke-linecap:butt;stroke-linejoin:round" />
   <path
-     d="M 196,170 L 49,255"
-     fill="none"
-     stroke="#FFFFFF"
-     stroke-width="34"
-     stroke-linecap="butt"
-     stroke-linejoin="round"
-     id="path18" />
+     d="m 196.58742,0.93169397 0,169.56830603"
+     id="path18"
+     inkscape:connector-curvature="0"
+     style="fill:none;stroke:#ffffff;stroke-width:33.54098511;stroke-linecap:butt;stroke-linejoin:round" />
   <path
-     d="M 196,170 L 49,85"
-     fill="none"
-     stroke="#FFFFFF"
-     stroke-width="34"
-     stroke-linecap="butt"
-     stroke-linejoin="round"
-     id="path20" />
+     d="M 343.79507,254.35246 196.58742,170.5"
+     id="path20"
+     inkscape:connector-curvature="0"
+     style="fill:none;stroke:#ffffff;stroke-width:33.54098511;stroke-linecap:butt;stroke-linejoin:round" />
   <path
-     d="M 196,170 L 196,0"
-     fill="none"
-     stroke="#000000"
-     stroke-width="26"
-     stroke-linecap="butt"
-     stroke-linejoin="round"
-     id="path22" />
+     d="M 49.379767,254.35246 196.58742,170.5"
+     id="path22"
+     inkscape:connector-curvature="0"
+     style="fill:none;stroke:#000000;stroke-width:26.08743095;stroke-linecap:butt;stroke-linejoin:round" />
   <path
-     d="M 196,170 L 343,255"
-     fill="none"
-     stroke="#000000"
-     stroke-width="26"
-     stroke-linecap="butt"
-     stroke-linejoin="round"
-     id="path24" />
+     d="M 49.379767,86.647545 196.58742,170.5"
+     id="path24"
+     inkscape:connector-curvature="0"
+     style="fill:none;stroke:#000000;stroke-width:26.08743095;stroke-linecap:butt;stroke-linejoin:round" />
   <path
-     d="M 196,170 L 49,255"
-     fill="none"
-     stroke="#000000"
-     stroke-width="26"
-     stroke-linecap="butt"
-     stroke-linejoin="round"
-     id="path26" />
+     d="m 196.58742,0.93169397 0,169.56830603"
+     id="path26"
+     inkscape:connector-curvature="0"
+     style="fill:none;stroke:#000000;stroke-width:26.08743095;stroke-linecap:butt;stroke-linejoin:round" />
   <path
-     d="M 196,170 L 49,85"
-     fill="none"
-     stroke="#000000"
-     stroke-width="26"
-     stroke-linecap="butt"
-     stroke-linejoin="round"
-     id="path28" />
+     d="M 343.79507,254.35246 196.58742,170.5"
+     id="path28"
+     inkscape:connector-curvature="0"
+     style="fill:none;stroke:#000000;stroke-width:26.08743095;stroke-linecap:butt;stroke-linejoin:round" />
   <polygon
-     points="145,119 247,119 247,221 145,221"
-     fill="#FFFFFF"
-     stroke="#000000"
-     stroke-width="4"
-     id="polygon30" />
+     points="78,64 132,64 132,118 78,118 "
+     id="polygon30"
+     transform="matrix(1.863388,0,0,1.863388,0.93167983,0.93169397)"
+     style="fill:#ffffff;stroke:#000000;stroke-width:2" />
   <circle
-     cx="145"
-     cy="170"
-     r="51"
-     fill="#FFFFFF"
-     stroke="#000000"
-     stroke-width="4"
-     id="circle32" />
+     cx="146.27596"
+     cy="170.5"
+     r="50.311474"
+     id="circle32"
+     style="fill:#ffffff;stroke:#000000;stroke-width:3.72677588" />
   <circle
-     cx="247"
-     cy="170"
-     r="51"
-     fill="#FFFFFF"
-     stroke="#000000"
-     stroke-width="4"
-     id="circle34" />
-  <ellipse
-     rx="31"
-     ry="30"
-     cx="123"
-     cy="43"
-     fill="#FFFFFF"
-     stroke="#000000"
-     stroke-width="2"
-     stroke-linejoin="round"
-     id="ellipse36" />
+     cx="246.8989"
+     cy="170.5"
+     r="50.311474"
+     id="circle34"
+     style="fill:#ffffff;stroke:#000000;stroke-width:3.72677588" />
+  <circle
+     cx="123.91528"
+     cy="43.789623"
+     id="ellipse36"
+     r="13.043715"
+     style="fill:#ffffff;stroke:#000000;stroke-width:1.86338794;stroke-linejoin:round" />
   <text
-     x="123"
-     y="43"
-     dy="0.3em"
-     fill="#000000"
-     stroke="#000000"
-     text-anchor="middle"
-     font-family="Bookman Old Style"
-     font-size="43"
-     id="text38">40</text>
+     x="123.91528"
+     y="43.789623"
+     font-size="9"
+     id="text38"
+     style="font-size:16.77049255px;font-family:'Bookman Old Style';text-anchor:middle;fill:#000000;stroke:#000000;stroke-width:1.86338794">40</text>
   <text
-     x="49"
-     y="170"
-     font-size="54"
+     x="51.243156"
+     y="170.5"
+     font-size="18"
      id="text40"
-     style="font-size:54px;font-family:TimpaniHeavy;text-anchor:middle;fill:#000000;stroke:#000000">D</text>
+     style="font-size:33.54098511px;font-family:TimpaniHeavy;text-anchor:middle;fill:#000000;stroke:#000000;stroke-width:1.86338794">D</text>
   <path
-     d=" M 98,0 L 294,0 L 392,170 L 294,340 L 98,340 L 0,170 Z"
-     fill="none"
-     stroke="black"
-     stroke-width="1"
-     stroke-linejoin="round"
-     id="path42" />
+     d="m 97.827854,0.93169397 197.519126,0 L 392.24315,170.5 l -96.89617,169.56831 -197.519126,0 L 0.93167983,170.5 Z"
+     id="path42"
+     inkscape:connector-curvature="0"
+     style="fill:none;stroke:#000000;stroke-width:1.86338794;stroke-linejoin:round" />
 </svg>
