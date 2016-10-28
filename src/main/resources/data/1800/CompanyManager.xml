@@ -26,16 +26,28 @@
 		<Capitalisation type="incremental"/>
         <CanUseSpecialProperties/>
 	</CompanyType>
-	<Company name="MT" type="Private" basePrice="20" revenue="5"
-			longname="Midland Terminal">
-	</Company>
+	<IfOption name="NumberOfPlayers" value="2">
+		<Company name="MT" type="Private" basePrice="20" revenue="5"
+				longname="Midland Terminal">
+		</Company>
+	</IfOption>
+	<IfOption name="NumberOfPlayers" value="3">
+		<Company name="MT" type="Private" basePrice="25" revenue="5"
+				longname="Midland Terminal">
+		</Company>
+	</IfOption>
 	<Company name="D&amp;SL" type="Private" basePrice="70" revenue="10"
 			longname="Denver &amp; Salt Lake">
+	<IfOption name="NumberOfPlayers" value="2">
 		<SpecialProperty condition="ifOwnedByPlayer" when="tokenLayingStep" class="net.sf.rails.game.special.SpecialTileLay">
 			<SpecialTileLay extra="yes" free="no" tile="800" />
 		</SpecialProperty>
-		
-			
+	</IfOption>
+	<IfOption name="NumberOfPlayers" value="3">
+		<SpecialProperty condition="ifOwnedByPlayer" when="anyTurn" class="net.sf.rails.game.special.ExchangeForShare">
+			<ExchangeForShare company="D&amp;RGW" share="10"/>
+		</SpecialProperty>
+	</IfOption>
 	</Company>
 	<Company name="RGS" type="Private" basePrice="150" revenue="20"
 		longname="Rio Grande &amp; Southern">
@@ -52,6 +64,12 @@
 			longname="Colorado &amp; Southern">
 		<Home hex="E5"/>
 	</Company>
+	<IfOption name="NumberOfPlayers" value="3">
+		<Company name="C&amp;W" type="Public" tokens="3" fgColour="255,255,255" bgColour="0,255,0"
+			longname="Colorado &amp; Western">
+			<Home hex="I3" />
+		</Company>
+	</IfOption>
 	
 	<StartPacket roundClass="net.sf.rails.game.StartRound_1830">
 		<Bidding initial="20" minimum="5" increment="1"/>
