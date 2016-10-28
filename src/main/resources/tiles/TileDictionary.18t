@@ -17570,5 +17570,215 @@ object TTilesWrapper
           Revenue = 30
           RevenuePosition = tp2CornerF
         end>
+    end
+    item
+      Code = 800
+      LongName = '1800 DSL'
+      Category = 'D&SL'
+      CategoryPosition = tp1CornerA
+      Level = tlGreen
+      Connections = <
+        item
+          Position1 = tp4SideB
+          Position2 = tpCenter
+        end
+        item
+          Position1 = tp4SideC
+          Position2 = tpCenter
+        end
+        item
+          Position1 = tp4SideD
+          Position2 = tpCenter
+        end
+        item
+          Position1 = tp4SideE
+          Position2 = tpCenter
+        end>
+      Junctions = <
+        item
+          JunType = jtWhistlestop
+          Revenue = 30
+          RevenuePosition = tp3CornerB
+        end>
+    end
+    item
+      Code = 802
+      LongName = '802'
+      Category = 'D'
+      Level = tlGreen
+      Connections = <
+        item
+          Position1 = tp4SideE
+          Position2 = tpCenter
+        end
+        item
+          Position1 = tp4SideF
+          Position2 = tpCenter
+        end
+        item
+          Position1 = tp4SideA
+          Position2 = tpCenter
+        end
+        item
+          Position1 = tp4SideC
+          Position2 = tpCenter
+        end>
+      Junctions = <
+        item
+          JunType = jtDoubleCity
+          Revenue = 40
+        end>
+    end
+    item
+      Code = 803
+      LongName = '803'
+      Category = 'D'
+      Level = tlBrown
+      Connections = <
+        item
+          Position1 = tp4SideE
+          Position2 = tpCenter
+        end
+        item
+          Position1 = tp4SideF
+          Position2 = tpCenter
+        end
+        item
+          Position1 = tp4SideA
+          Position2 = tpCenter
+        end
+        item
+          Position1 = tp4SideC
+          Position2 = tpCenter
+        end>
+      Junctions = <
+        item
+          JunType = jtCity
+          Revenue = 50
+        end>
+    end
+    item
+      Code = 804
+      LongName = '804'
+      Level = tlBrown
+      Connections = <
+        item
+          Position1 = tp4SideA
+          Position2 = tpCenter
+        end
+        item
+          Position1 = tp4SideB
+          Position2 = tpCenter
+        end
+        item
+          Position1 = tp4SideC
+          Position2 = tpCenter
+        end>
+      Junctions = <
+        item
+          JunType = jtCity
+          Revenue = 40
+          RevenuePosition = tp2CornerF
+        end>
+    end
+    item
+      Code = 805
+      LongName = '805'
+      Category = 'D'
+      Level = tlGray
+      Connections = <
+        item
+          Position1 = tp4SideE
+          Position2 = tpCenter
+        end
+        item
+          Position1 = tp4SideF
+          Position2 = tpCenter
+        end
+        item
+          Position1 = tp4SideA
+          Position2 = tpCenter
+        end
+        item
+          Position1 = tp4SideC
+          Position2 = tpCenter
+        end>
+      Junctions = <
+        item
+          JunType = jtDoubleCity
+          Revenue = 60
+        end>
+    end
+    item
+      Code = 806
+      LongName = '806'
+      Level = tlGray
+      Connections = <
+        item
+          Position1 = tp4SideA
+          Position2 = tpCenter
+        end
+        item
+          Position1 = tp4SideD
+          Position2 = tpCenter
+        end
+        item
+          Position1 = tp4SideC
+          Position2 = tpCenter
+        end>
+      Junctions = <
+        item
+          JunType = jtWhistlestop
+          Revenue = 10
+          RevenuePosition = tp1CornerF
+        end>
+    end
+    item
+      Code = 807
+      LongName = '807'
+      Level = tlGray
+      Connections = <
+        item
+          Position1 = tp4SideA
+          Position2 = tpCenter
+        end
+        item
+          Position1 = tp4SideB
+          Position2 = tpCenter
+        end
+        item
+          Position1 = tp4SideD
+          Position2 = tpCenter
+        end>
+      Junctions = <
+        item
+          JunType = jtWhistlestop
+          Revenue = 10
+          RevenuePosition = tp1CornerF
+        end>
+    end
+    item
+      Code = 808
+      LongName = '808'
+      Level = tlGray
+      Connections = <
+        item
+          Position1 = tp4SideA
+          Position2 = tpCenter
+        end
+        item
+          Position1 = tp4SideB
+          Position2 = tpCenter
+        end
+        item
+          Position1 = tp4SideC
+          Position2 = tpCenter
+        end>
+      Junctions = <
+        item
+          JunType = jtWhistlestop
+          Revenue = 10
+          RevenuePosition = tp1CornerF
+        end>
     end>
 end

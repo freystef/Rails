@@ -1,0 +1,154 @@
+<TileManager tiles="Tiles.xml">
+	<Defaults>
+		<Access type="offmap" loop="yes"/>
+	</Defaults>
+	<!-- Preprinted tiles -->
+	<Tile id="0"><!-- Empty space -->
+		<Upgrade id="7,8,9"/>
+	</Tile>
+	<Tile id="-1"><!-- 1 town -->
+		<Upgrade id="3,4,15,58"/>
+	</Tile>
+	<Tile id="-3"/>
+	<Tile id="-5"/>
+	<Tile id="-7"/>
+	<Tile id="-10"><!-- 1 city -->
+		<Upgrade id="5,6"/>
+	</Tile>
+	<Tile id="-12">
+		<Upgrade id="5,6"/>
+	</Tile>
+	<Tile id="-13"/>
+	<Tile id="-20" relayBaseTokens="yes"><!-- 2 OO cities -->
+		<Upgrade id="59"/>
+	</Tile>
+	<Tile id="-58"/>
+	<Tile id="-101"/><!-- Altoona -->
+	<Tile id="-102"/><!-- Rochester -->
+	<Tile id="-103"/><!-- Montreal -->
+	<Tile id="-104"/><!-- Norfolk -->
+	<Tile id="-105"/><!-- Cleveland -->
+	<Tile id="-901"/>
+	<Tile id="-902"/>
+	<Tile id="-903"/>
+    <Tile id="-908"/><!-- Coalfields: K1 -->
+	<Tile id="-25007"/><!-- Wabash: D20-->
+    <Tile id="-30001"/><!-- Coalfields: N of Boston -->
+    <Tile id="-30003" pic="-30002"/><!-- Coalfields: Altoona -->
+    <Tile id="-30004"/><!-- Coalfields: Coalfields -->
+    <Tile id="-30005"/><!-- Coalfields: Norfolk -->
+	<Tile id="-30007" pic="-30006"/><!-- Reading: Reading-->
+	
+	<!-- Yellow tiles -->
+	<Tile id="3" quantity="1">
+				<Upgrade id="800" />
+	</Tile>
+	<Tile id="4" quantity="2">
+				<Upgrade id="800" />
+	</Tile>
+	<Tile id="5" quantity="2">
+		<Upgrade id="12" />
+		<Upgrade id="802" hex="G3" />
+		<IfOption name="NumberOfPlayers" value="3">
+			<Attributes quantityIncrement="+1"/>
+		</IfOption>
+	</Tile>
+	<Tile id="6" quantity="2">
+		<Upgrade id="12" />
+		<Upgrade id="802" hex="G3"/>
+		<IfOption name="NumberOfPlayers" value="3">
+			<Attributes quantityIncrement="+1"/>
+		</IfOption>
+	</Tile>
+	<Tile id="7" quantity="1">
+		<Upgrade id="16,18,19,23,24,25,26,27,28,29" />
+	</Tile>
+	<Tile id="8" quantity="2">
+		<Upgrade id="16,19,23,24,25,28,29" />
+	</Tile>
+	<Tile id="9" quantity="2">
+		<Upgrade id="16,18,19,23,24,25,26,27,28,29" />
+	</Tile>
+	<Tile id="58" quantity="2" />
+	
+	<!-- Green tiles -->
+	<Tile id="12" quantity="2">
+		<IfOption name="NumberOfPlayers" value="3">
+			<Attributes quantityIncrement="+1"/>
+		</IfOption>
+		<Upgrade id="804"/>
+	</Tile>
+	<Tile id="15" quantity="0">
+		<Upgrade id="43,70" />
+		<IfOption name="NumberOfPlayers" value="3">
+			<Attributes quantityIncrement="+1"/>
+		</IfOption>
+	</Tile>
+	<Tile id="16" quantity="1">
+		<Upgrade id="43,70" />
+	</Tile>
+	<Tile id="18" quantity="1">
+		<Upgrade id="43" />
+	</Tile>
+	<Tile id="19" quantity="1">
+		<Upgrade id="45,46" />
+	</Tile>
+	<Tile id="23" quantity="1">
+		<Upgrade id="41,43,45" />
+	</Tile>
+	<Tile id="24" quantity="1">
+		<Upgrade id="42,43,46" />
+	</Tile>
+	<Tile id="25" quantity="1">
+		<Upgrade id="40,45,46" />
+	</Tile>
+	<Tile id="26" quantity="1">
+		<Upgrade id="42,45" />
+	</Tile>
+	<Tile id="27" quantity="1">
+		<Upgrade id="41,46" />
+	</Tile>
+	<Tile id="28" quantity="1">
+		<Upgrade id="39,43,46,70" />
+	</Tile>
+	<Tile id="29" quantity="1">
+		<Upgrade id="39,43,45,70" />
+	</Tile>
+	<Tile id="59" quantity="2">
+		<Upgrade id="64,65,67,68" />
+	</Tile>
+	<Tile id="800" quantity="1"/>
+	<Tile id="802" quantity="1">
+		<Upgrade id="803"/>
+	</Tile>
+	
+	<!-- Brown tiles -->
+	<Tile id="39" quantity="1" />
+	<Tile id="40" quantity="1" />
+	<Tile id="41" quantity="2" />
+	<Tile id="42" quantity="2" />
+	<Tile id="43" quantity="2" />
+	<Tile id="45" quantity="2" />
+	<Tile id="46" quantity="2" />
+	<Tile id="47" quantity="1" />
+	<Tile id="64" quantity="1" />
+	<Tile id="65" quantity="1" />
+	<Tile id="67" quantity="1" />
+	<Tile id="68" quantity="1" />
+	<Tile id="70" quantity="1" />
+	<Tile id="803" quantity="1">
+		<Upgrade id="805"/>
+	</Tile>
+	<Tile id="804" quantity="1">
+		<IfOption name="NumberOfPlayers" value="3">
+			<Attributes quantityIncrement="+1"/>
+		</IfOption>
+	</Tile>
+	
+	<!-- Grey tiles -->
+	<Tile id="805" quantity="1"/>
+	<Tile id="806" quantity="1"/>
+	<Tile id="807" quantity="1"/>
+	<Tile id="808" quantity="1"/>
+	
+</TileManager>

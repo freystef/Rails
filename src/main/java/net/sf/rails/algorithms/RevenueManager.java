@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- * Coordinates and stores all elements related to revenue calulcation,
+ * Coordinates and stores all elements related to revenue calculation,
  * which are permanent.
  * The conversion of Rails elements is in the responsibility of the RevenueAdapter.
  * For each GameManager instance only one RevenueManager is created.
