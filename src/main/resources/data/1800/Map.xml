@@ -5,8 +5,11 @@
 		<Access type="town" runTo="yes" runThrough="yes" loop="yes" score="minor"/>
 	</Defaults>
 	<!-- The above defaults are redundant, these settings are the system defaults anyway -->
-	<IfOption name="Variant" value="2p,Basegame">
-		<Image file="1800/mapimage_2p.svg" x="15" y="8" scale=".92"></Image>
+	<IfOption name="NumberOfPlayers" value="2">
+		<Image file="1800/mapimage_2p.svg" x="15" y="8" scale=".92"/>
+	</IfOption>
+	<IfOption name="NumberOfPlayers" value="3">
+		<Image file="1800/mapimage_3p.svg" x="15" y="25" scale=".90"/>
 	</IfOption>
 	<Hex name="A3" tile="-13" value="10,40,70" city="Cheyenne" orientation="3"/>
 	<Hex name="C3" tile="0" cost="50"/>
@@ -20,6 +23,12 @@
 	<Hex name="G1" tile="-901" value="10,20,30" orientation="4"/>
 	<Hex name="G3" tile="-12" city="Denver" cost="40" />
 	<Hex name="G5" tile="-901" value="10,20,30" orientation="4"/>
-	<Hex name="I3" tile="-901" value="20,30,40" city="Colorado Springs" orientation="4"/>
-	
+	<IfOption name="NumberOfPlayers" value="2">
+		<Hex name="I3" tile="-901" value="20,30,40" city="Colorado Springs" orientation="4"/>
+	</IfOption>
+	<IfOption name="NumberOfPlayers" value="3">
+		<Hex name="H2" tile="-901" value="10,20,30" orientation="0"/>
+ 		<Hex name="H4" tile="-901" value="10,20,30" orientation="2"/>
+		<Hex name="I3" tile="-12" city="Colorado Springs"/>
+	</IfOption>
 </Map>
