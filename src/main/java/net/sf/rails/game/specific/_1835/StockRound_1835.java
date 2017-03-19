@@ -7,10 +7,12 @@ package net.sf.rails.game.specific._1835;
 import java.util.Set;
 
 import rails.game.action.BuyCertificate;
-
 import net.sf.rails.common.LocalText;
 import net.sf.rails.common.ReportBuffer;
 import net.sf.rails.game.*;
+import net.sf.rails.game.financial.PublicCertificate;
+import net.sf.rails.game.financial.StockRound;
+import net.sf.rails.game.financial.StockSpace;
 import net.sf.rails.game.model.PortfolioModel;
 
 
@@ -24,6 +26,8 @@ public class StockRound_1835 extends StockRound {
     }
 
     /** Add nationalisations */
+    // change: nationalization is a specific BuyCertificate activity
+    // requires: add a new activity
     @Override
     public void setBuyableCerts() {
 
@@ -93,11 +97,15 @@ public class StockRound_1835 extends StockRound {
     }
 
     @Override
+    // change: there is no holding limit in 1835
+    // requires: should be parameterized?
     public boolean checkAgainstHoldLimit(Player player, PublicCompany company, int number) {
         return true;
     }
 
     @Override
+    // change: price differs for nationalization action
+    // requires: move into new activity
     protected int getBuyPrice (BuyCertificate action, StockSpace currentSpace) {
         int price = currentSpace.getPrice();
         if (action.getFromPortfolio().getParent() instanceof Player) {
@@ -106,8 +114,11 @@ public class StockRound_1835 extends StockRound {
         return price;
     }
 
-    @Override
     // The sell-in-same-turn-at-decreasing-price option does not apply here
+    
+    // change: check exactly how it differs here
+    // requires: do a parameterization
+    @Override
     protected int getCurrentSellPrice (PublicCompany company) {
 
         int price;
@@ -124,6 +135,8 @@ public class StockRound_1835 extends StockRound {
 
     /** Share price goes down 1 space for any number of shares sold.
      */
+    // change: specific share price adjustment
+    // requires: do a parameterization
     @Override
     protected void adjustSharePrice (PublicCompany company, int numberSold, boolean soldBefore) {
         // No more changes if it has already dropped
@@ -142,6 +155,8 @@ public class StockRound_1835 extends StockRound {
      * @param boughtfrom The portfolio from which a certificate has been bought.
      * @param company The company of which a share has been traded.
      */
+    // change: release of shares to IPO
+    // requires: trigger on IPO portfolio
     @Override
     protected void gameSpecificChecks (PortfolioModel boughtFrom,
             PublicCompany company) {

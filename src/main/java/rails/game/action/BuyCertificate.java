@@ -8,6 +8,7 @@ import rails.game.specific._1880.StartCompany_1880;
 import com.google.common.base.Objects;
 
 import net.sf.rails.game.*;
+import net.sf.rails.game.financial.PublicCertificate;
 import net.sf.rails.game.model.PortfolioModel;
 import net.sf.rails.game.model.PortfolioOwner;
 import net.sf.rails.util.RailsObjects;
@@ -47,6 +48,7 @@ public class BuyCertificate extends PossibleAction {
     public BuyCertificate(PublicCompany company, int sharePerCert,
             PortfolioOwner from,
             int price, int maximumNumber) {
+        super(null); // not defined by an activity yet
         this.company = company;
         this.sharePerCert = sharePerCert;
         this.from = from.getPortfolioModel();
@@ -65,7 +67,10 @@ public class BuyCertificate extends PossibleAction {
     }
 
     /** Required for deserialization */
-    public BuyCertificate() {}
+    public BuyCertificate() {
+        super(null); // not defined by an activity yet
+    }
+
 
     public PortfolioModel getFromPortfolio() {
         return from;

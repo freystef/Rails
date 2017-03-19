@@ -13,6 +13,8 @@ import net.sf.rails.common.ReportBuffer;
 import net.sf.rails.common.parser.Configurable;
 import net.sf.rails.common.parser.ConfigurationException;
 import net.sf.rails.common.parser.Tag;
+import net.sf.rails.game.financial.Bank;
+import net.sf.rails.game.financial.BankPortfolio;
 import net.sf.rails.game.state.BooleanState;
 import net.sf.rails.game.state.HashMapState;
 import net.sf.rails.game.state.IntegerState;

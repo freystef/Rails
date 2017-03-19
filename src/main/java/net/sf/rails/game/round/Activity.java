@@ -1,36 +1,44 @@
 package net.sf.rails.game.round;
 
-import rails.game.action.PossibleAction;
 import net.sf.rails.game.RailsAbstractItem;
-import net.sf.rails.game.RailsItem;
+import net.sf.rails.game.state.BooleanState;
+import rails.game.action.PossibleAction;
+import rails.game.action.PossibleActions;
 
 public abstract class Activity extends RailsAbstractItem {
    
-    protected Activity(RailsItem parent, String id) {
+    private final BooleanState enabled = BooleanState.create(this, "enabled");
+    
+    protected Activity(RoundNG parent, String id) {
         super(parent, id);
     }
 
-    /**
-     * @return true if activity is active
-     */
-    public abstract boolean isActive();
+    public void setEnabled(boolean enabled) {
+        this.enabled.set(enabled);
+    }
 
-    /**
-     * @return available actions thus checks the preconditions and creates the allowed actions 
-     */
-    public abstract Iterable<PossibleAction> getActions();
+    public boolean isEnabled() {
+        return enabled.value();
+    }
     
     /**
-     * @return checks if the conditions of the actions are fullfilled
+     * create actions and add them to the possibleActions object
      */
-    public abstract boolean isActionAllowed(PossibleAction action);
+    public abstract void createActions(Actor actor, PossibleActions actions);
+    
+    /**
+     * checks if the conditions of the actions are fullfilled
+     */
+    public abstract boolean isActionExecutable(PossibleAction action);
     
     /**
      * executes the action
      */
     public abstract void executeAction(PossibleAction action);
     
-}
+    /**
+     * reports action execution
+     */
+    public abstract void reportExecution(PossibleAction action);
     
-
-
+}

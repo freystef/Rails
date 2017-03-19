@@ -7,11 +7,11 @@ import net.sf.rails.common.LocalText;
 import net.sf.rails.common.ReportBuffer;
 import net.sf.rails.game.GameManager;
 import net.sf.rails.game.Player;
-import net.sf.rails.game.PublicCertificate;
 import net.sf.rails.game.PublicCompany;
 import net.sf.rails.game.StartItem;
 import net.sf.rails.game.StartRound_AuctionOnly;
-import net.sf.rails.game.StockSpace;
+import net.sf.rails.game.financial.PublicCertificate;
+import net.sf.rails.game.financial.StockSpace;
 import net.sf.rails.game.state.Currency;
 
 /**
@@ -39,14 +39,9 @@ public class StartRound_1862 extends StartRound_AuctionOnly {
         ReportBuffer.add(
                 this,
                 LocalText.getText("BuysItemFor", player.getId(),
-                        primary.getName(), priceText));
+                        primary.toText(), priceText));
 
         item.setSold(player, price);
-    }
-
-    @Override
-    public String getHelp() {
-        return "1862 Start Round help text"; // TODO: Is this used?
     }
 
     @Override

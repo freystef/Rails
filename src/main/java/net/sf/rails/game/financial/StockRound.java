@@ -1,9 +1,17 @@
-package net.sf.rails.game;
+package net.sf.rails.game.financial;
 
 import java.util.*;
 
 import rails.game.action.*;
 import net.sf.rails.common.*;
+import net.sf.rails.game.GameDef;
+import net.sf.rails.game.GameManager;
+import net.sf.rails.game.Player;
+import net.sf.rails.game.PlayerManager;
+import net.sf.rails.game.PrivateCompany;
+import net.sf.rails.game.PublicCompany;
+import net.sf.rails.game.Round;
+import net.sf.rails.game.GameDef.Parm;
 import net.sf.rails.game.model.PortfolioModel;
 import net.sf.rails.game.special.*;
 import net.sf.rails.game.state.*;
@@ -48,9 +56,9 @@ public class StockRound extends Round {
 
 
     /* Rule constants */
-    static protected final int SELL_BUY_SELL = 0;
-    static protected final int SELL_BUY = 1;
-    static protected final int SELL_BUY_OR_BUY_SELL = 2;
+    public static final int SELL_BUY_SELL = 0;
+    public static final int SELL_BUY = 1;
+    public static final int SELL_BUY_OR_BUY_SELL = 2;
 
     /* Action constants */
     static public final int BOUGHT = 0;
@@ -64,6 +72,12 @@ public class StockRound extends Round {
     protected boolean isOverLimits = false;
     protected String overLimitsDetail = null;
 
+    /** Autopasses */
+    private final ArrayListState<Player> autopasses = ArrayListState.create(this, "autopasses");
+    private final ArrayListState<Player> canRequestTurn = ArrayListState.create(this, "canRequestTurn");
+    private final ArrayListState<Player> hasRequestedTurn = ArrayListState.create(this, "hasRequestedTurn");
+
+    
     /**
      * Constructed via Configure
      */
@@ -73,7 +87,7 @@ public class StockRound extends Round {
         if (numberOfPlayers == 0)
             numberOfPlayers = getRoot().getPlayerManager().getPlayers().size();
 
-        sequenceRule = getGameParameterAsInt(GameDef.Parm.STOCK_ROUND_SEQUENCE);
+        sequenceRule = GameDef.getGameParameterAsInt(this, GameDef.Parm.STOCK_ROUND_SEQUENCE);
 
         guiHints.setVisibilityHint(GuiDef.Panel.MAP, true);
         guiHints.setVisibilityHint(GuiDef.Panel.STOCK_MARKET, true);
@@ -84,6 +98,13 @@ public class StockRound extends Round {
      * Please note: subclasses that are NOT real stock rounds should NOT call this method
      * (or set raiseIfSoldOut to false after calling this method).
      */
+    // called by:
+    // GameManager: startStockRound
+    // StockRound 1837, 18EU: (start)
+    
+    // overridden by:
+    // StockRound 1837, 18EU
+    // NationalFormationRound, PrussianFormationRound
     public void start() {
 
         ReportBuffer.add(this, LocalText.getText("StartStockRound",
@@ -101,11 +122,28 @@ public class StockRound extends Round {
     }
 
     /*----- General methods -----*/
-
+    // called by
+    // StockRound: checkFirstRoundSellRestriction, finishRound, getRoundName, start
+    // StockRound 1837, 1880: finishRound
+    // StatusWindow: updateStatus
+    
+    // not overridden
     public int getStockRoundNumber() {
         return gameManager.getSRNumber();
     }
 
+    // called by:
+    // GameManager: process, processOnReload
+    // GameLoader: replayGame
+    // StockRound 1837, 1856, 18EU: setPossibleActions
+    
+    // overridden by
+    // ShareSellingRound
+    // TreasuryShareRound
+    // NationalFormationRound, PrussianFormationRound
+    // StockRound 1837, 1856, 18EU
+    // ShareSellingRound 1880
+    // FinalMinorExchangeRound, FinalCoalExchangeRound
     @Override
     public boolean setPossibleActions() {
 
@@ -149,6 +187,11 @@ public class StockRound extends Round {
     }
 
     /** Stub, can be overridden in subclasses */
+    // called by:
+    // StockRound: setPossibleActions
+    
+    // overridden by:
+    // StockRound 1837, 18EU
     protected void setGameSpecificActions() {
 
     }
@@ -159,6 +202,13 @@ public class StockRound extends Round {
      *
      * @return List of buyable certificates.
      */
+    // called by
+    // StockRound: setPossibleActions
+    // StockRound 1835: (setBuyableCerts)
+    
+    // overridden by
+    // TreasuryShareRound
+    // StockRound 1835, 1880,18EU
     public void setBuyableCerts() {
         if (!mayCurrentPlayerBuyAnything()) return;
 
@@ -354,6 +404,12 @@ public class StockRound extends Round {
     // FIXME Rails 2.0: 
     // This is rewritten taken into account that actions will not be changed for now
     // A change of action will allow to simplify this strongly
+    
+    // called by:
+    // StockRound: setPossibleActions
+    
+    // overridden by:
+    // ShareSellingRound
     public void setSellableShares() {
 
         if (!mayCurrentPlayerSellAnything()) return;
@@ -400,7 +456,7 @@ public class StockRound extends Round {
                 violations.append(LocalText.getText("ExceedCertificateLimitCompany",
                         company.getId(),
                         playerPortfolio.getShare(company),
-                        getGameParameterAsInt(GameDef.Parm.PLAYER_SHARE_LIMIT)
+                        GameDef.getGameParameterAsInt(this, GameDef.Parm.PLAYER_SHARE_LIMIT)
                 ));
 
             } else {
@@ -524,6 +580,10 @@ public class StockRound extends Round {
         }
     }
 
+    // called by:
+    // StockRound: setPossibleActions
+    
+    // not overridden
     protected void setSpecialActions() {
 
         List<SpecialProperty> sps =
@@ -537,7 +597,14 @@ public class StockRound extends Round {
     }
 
     /*----- METHODS THAT PROCESS PLAYER ACTIONS -----*/
-
+    // called by:
+    // GameManager: process, processOnReload
+    // StockRound 1880: (process)
+    // ShareSellingRound 1880: (process)
+    
+    // overridden by
+    // StockRound 1880
+    // ShareSellingRound 1880
     @Override
     public boolean process(PossibleAction action) {
 
@@ -594,6 +661,12 @@ public class StockRound extends Round {
     }
 
     // Return value indicates whether the action has been processed.
+    // called by:
+    // StockRound: process
+    
+    // overridden by:
+    // StockRound 1837, 18EU
+    // PrussianFormationRound, NationalFormationRound
     protected boolean processGameSpecificAction(PossibleAction action) {
 
         return false;
@@ -609,6 +682,12 @@ public class StockRound extends Round {
      * 1841).
      * @return True if the company could be started. False indicates an error.
      */
+    // called by:
+    // StockRound: process
+    // StockRound 1880: startCompany (not overridden!)
+    
+    // overridden by:
+    // StockRound 18EU
     public boolean startCompany(String playerName, StartCompany action) {
         PublicCompany company = action.getCompany();
         int price = action.getPrice();
@@ -751,6 +830,11 @@ public class StockRound extends Round {
      * @return True if the certificates could be bought. False indicates an
      * error.
      */
+    // called by:
+    // StockRound: process
+    
+    // overriden by:
+    // TreasuryShareRound
     public boolean buyShares(String playerName, BuyCertificate action) {
 
         PublicCompany company = action.getCompany();
@@ -937,12 +1021,25 @@ public class StockRound extends Round {
     }
 
     /** Stub, may be overridden in subclasses */
+    // called by:
+    // StockRound: buyShares, startCompany
+    // StockRound 1880: (gameSpecificChecks)
+    
+    // overridden by:
+    // StockRound 1825, 1835, 1856, 1880
+    
     protected void gameSpecificChecks(PortfolioModel boughtFrom,
             PublicCompany company) {
 
     }
 
     /** Allow different price setting in subclasses (i.e. 1835 Nationalisation) */
+    // called by:
+    // StockRound: buyShares
+    
+    // overridden by:
+    // StockRound 1835
+    
     protected int getBuyPrice (BuyCertificate action, StockSpace currentSpace) {
         return currentSpace.getPrice();
     }
@@ -954,6 +1051,11 @@ public class StockRound extends Round {
      * @param cert
      * @return
      */
+    // called by:
+    // StockRound: buyShares, startCompany
+    
+    // overridden by:
+    // StockRound 1856
     protected MoneyOwner getSharePriceRecipient (PublicCompany comp,
             Owner from, int price) {
 
@@ -974,10 +1076,23 @@ public class StockRound extends Round {
      * by putting these in the IPO.
      * @param company The company to be released.
      */
+    // called by:
+    // StockRound 1825, 1835: gameSpecificChecks
+    
+    // not overridden
     protected void releaseCompanyShares(PublicCompany company) {
         Portfolio.moveAll(unavailable.getCertificates(company), ipo.getParent());
     }
 
+    // called by:
+    // StockRound: process
+    // StockRound 1880: (sellsShares)
+    
+    // overridden by:
+    // ShareSellingRound
+    // TreasuryShareRound
+    // StockRound 1880
+    // ShareSellingRound 1880
     public boolean sellShares(SellShares action)
     // NOTE: Don't forget to keep ShareSellingRound.sellShares() in sync
     {
@@ -1035,7 +1150,7 @@ public class StockRound extends Round {
 
             // The pool may not get over its limit.
             if (pool.getShare(company) + numberToSell * company.getShareUnit()
-                    > getGameParameterAsInt(GameDef.Parm.POOL_SHARE_LIMIT)) {
+                    > GameDef.getGameParameterAsInt(this, GameDef.Parm.POOL_SHARE_LIMIT)) {
                 errMsg = LocalText.getText("PoolOverHoldLimit");
                 break;
             }
@@ -1135,6 +1250,12 @@ public class StockRound extends Round {
     }
 
     // FIXME: Rails 2.x This has to be rewritten to give the new presidency a choice which shares to swap (if he has multiple share certificates)
+    // called by:
+    // StockRound: executeShareTransfer
+    // StockRound 1880: executeShareTransfer
+    // ShareSellingRound 1880: executeShareTransfer
+    
+    // not overriden
     protected final void executeShareTransferTo( PublicCompany company,
             List<PublicCertificate> certsToSell, Player dumpedPlayer, int presSharesToSell,
             BankPortfolio bankTo) {
@@ -1155,6 +1276,13 @@ public class StockRound extends Round {
         
     }
     
+    // called by:
+    // StockRound: sellShares
+    // ShareSellingRound. sellShares
+    
+    // overridden by
+    // StockRound 1880
+    // ShareSellingRound 1880
     protected void executeShareTransfer( PublicCompany company,
             List<PublicCertificate> certsToSell, 
             Player dumpedPlayer, int presSharesToSell) {
@@ -1162,6 +1290,12 @@ public class StockRound extends Round {
         executeShareTransferTo(company, certsToSell, dumpedPlayer, presSharesToSell, (BankPortfolio)pool.getParent() );
     }
 
+    // called by:
+    // StockRound: sellShares, setSellableShares
+    
+    // overridden by:
+    // StockRound 1835
+    
     protected int getCurrentSellPrice (PublicCompany company) {
 
         int price;
@@ -1176,7 +1310,17 @@ public class StockRound extends Round {
         price = price / company.getShareUnitsForSharePrice();
         return price;
     }
-
+    
+    // called by:
+    // StockRound: sellShares
+    // StockRound 1835, 1856, 1880: (adjustSharePrice)
+    // ShareSellingRound 1856: (adjustSharePrice)
+    // ShareSellingRound: sellShares
+    // ShareSellingRound 1880: sellShares
+    
+    // overriden by:
+    // StockRound 1825, 1835, 1856, 1880
+    // ShareSellingRound 1856
     protected void adjustSharePrice (PublicCompany company, int numberSold, boolean soldBefore) {
 
         if (!company.canSharePriceVary()) return;
@@ -1197,6 +1341,10 @@ public class StockRound extends Round {
 
     }
 
+    // called by:
+    // StockRound: process
+    
+    // not overridden
     public boolean useSpecialProperty(UseSpecialProperty action) {
 
         SpecialProperty sp = action.getSpecialProperty();
@@ -1215,6 +1363,11 @@ public class StockRound extends Round {
     }
 
     // TODO: Check if this still does work, there is a cast involved now
+    
+    // called by:
+    // StockRound: useSpecialProperty
+    
+    // not overridden
     public boolean executeExchangeForShare (UseSpecialProperty action, ExchangeForShare sp) {
 
         PublicCompany publicCompany =
@@ -1250,7 +1403,7 @@ public class StockRound extends Round {
                 // TODO: Not nice to use '1' here, should be percentage.
                 errMsg =
                     LocalText.getText("WouldExceedHoldLimit",
-                            String.valueOf(getGameParameterAsInt(GameDef.Parm.PLAYER_SHARE_LIMIT)));
+                            String.valueOf(GameDef.getGameParameterAsInt(this, GameDef.Parm.PLAYER_SHARE_LIMIT)));
                 break;
             }
             break;
@@ -1294,6 +1447,12 @@ public class StockRound extends Round {
      *
      * @return False if an error is found.
      */
+    // called by
+    // StockRound: finishTurn, process
+    
+    // overridden by
+    // StockRound 1837, 18EU
+    // TreasuryShareRound
     public boolean done(NullAction action, String playerName, boolean hasAutopassed) {
 
         //currentPlayer = getCurrentPlayer();
@@ -1322,7 +1481,7 @@ public class StockRound extends Round {
             }
         }
 
-        if (numPasses.value() >= getNumberOfActivePlayers()) {
+        if (numPasses.value() >= PlayerManager.getNumberOfActivePlayers(this)) {
 
             finishRound();
 
@@ -1334,6 +1493,14 @@ public class StockRound extends Round {
         return true;
     }
 
+    // called by:
+    // StockRound: done
+    // StockRound 18367, 18EU: (finishRound)
+    
+    // overridden by:
+    // StockRound 1837, 1880, 18EU
+    // NationalFormationRound, PrussianFormationRound
+    
     @Override
     protected void finishRound () {
 
@@ -1374,6 +1541,10 @@ public class StockRound extends Round {
         super.finishRound();
     }
 
+    // called by:
+    // StockRound: process
+    
+    // not overridden
     protected boolean requestTurn (RequestTurn action) {
 
         Player requestingPlayer = playerManager.getPlayerByName(action.getRequestingPlayerName());
@@ -1396,6 +1567,14 @@ public class StockRound extends Round {
         return true;
     }
 
+    
+    // called by:
+    // StockRound: done
+    // StockRound 1837, 18EU: (finishTurn)
+    
+    // overridden by:
+    // StockRound 1837, 18EU
+    
     protected void finishTurn() {
 
         setNextPlayer();
@@ -1414,12 +1593,28 @@ public class StockRound extends Round {
     /**
      * Internal method: pass the turn to the next player.
      */
+    
+    // called by
+    // StockRound: finishTurn
+    // NationalFormationRound, 1835 PrussianFormationRound: findNextMergingPlayer
+    // 1837FinalCoalExchangeRound: setMinorMergeActions
+    // 18EUFinalMInorExchangeRound: setMinorMergeActions
+    
+    // not overridden
     protected void setNextPlayer() {
 
         getRoot().getPlayerManager().setCurrentToNextPlayer();
         initPlayer();
     }
 
+    // called by
+    // StockRound: setNextPlayer, start
+    // StockRound 1856: (initPlayer)
+    
+    // overridden by:
+    // StockRound 1837, 1856, 18EU
+    // FinalCoalExchangeRound
+    // FinalMinorExchangeRound
     protected void initPlayer() {
 
         currentPlayer = playerManager.getCurrentPlayer();
@@ -1433,11 +1628,22 @@ public class StockRound extends Round {
      * Remember the player that has the Priority Deal. <b>Must be called BEFORE
      * setNextPlayer()!</b>
      */
+    // called by
+    // StockRound: buyShares, sellShares, startCompany
+    // StockRound 18EU: mergeCompanies, startCompany
+    // StockRound 1837: mergeCompanies
+    
+    // not overridden
     protected void setPriority() {
         getRoot().getPlayerManager().setPriorityPlayerToNext();
     }
 
-    @Override
+    // called by
+    // Stockround 1837, 18EU: finishRound, finishTurn
+    // NationalFormationRound, 1835PrussianFormationRound: setPossibleActions, start
+    
+    // not overridden
+    @Deprecated
     public void setCurrentPlayer(Player player) {
         getRoot().getPlayerManager().setCurrentPlayer(player);
         currentPlayer = player;
@@ -1448,6 +1654,10 @@ public class StockRound extends Round {
     /**
      * @return The index of the player that has the turn.
      */
+    // called by
+    // ShareSellingRound 1880: sellShares
+    
+    // not overridden
     public int getCurrentPlayerIndex() {
         return currentPlayer.getIndex();
     }
@@ -1455,6 +1665,10 @@ public class StockRound extends Round {
     /**
      * @return true if first round sell restriction is active
      */
+    // called by
+    // StockRound: mayCurrentPlayerSellAnything, sellShares
+    
+    // not overridden
     private boolean checkFirstRoundSellRestriction() {
         if (noSaleInFirstSR() && getStockRoundNumber() == 1) {
             // depending on GameOption restriction is either valid during the first (true) Stock Round or the first Round 
@@ -1473,6 +1687,12 @@ public class StockRound extends Round {
      *
      * @return True if any selling is allowed.
      */
+    // called by
+    // StockRound: sellShares, sellSellableShares
+    
+    // overridden by
+    // ShareSellingRound
+    // TreasuryShareRound
     public boolean mayCurrentPlayerSellAnything() {
 
         if (checkFirstRoundSellRestriction()) {
@@ -1487,6 +1707,14 @@ public class StockRound extends Round {
         return true;
     }
 
+    
+    // called by 
+    // StockRound: sellShares, setSellableShares
+    // StockRound 1880: (mayPlayerSellShareOfCompany), sellShares
+    // ShareSellingRound: getSellableShares
+    
+    // overridden by
+    // StockRound 1880
     public boolean mayPlayerSellShareOfCompany(PublicCompany company) {
 
         // Can't sell shares that have no price
@@ -1506,11 +1734,23 @@ public class StockRound extends Round {
      *
      * @return True if any buying is allowed.
      */
+    // called by 
+    // StockRound: setBuyableCerts
+    // StockRound 1880, 18EU: setBuyableCerts
+    // StockRound 1837, 18EU: setGameSpecificActions
+    
+    // overridden by
+    // ShareSellingRound
+    // TreasuryShareRound
     public boolean mayCurrentPlayerBuyAnything() {
         return !isOverLimits && companyBoughtThisTurnWrapper.value() == null;
     }
 
     // Only used now to check if Autopass must be reset.
+    // called by
+    // StockRound: finishTurn
+    
+    // not overridden
     protected boolean isPlayerOverLimits(Player player) {
 
         // Over the total certificate hold Limit?
@@ -1536,6 +1776,12 @@ public class StockRound extends Round {
      * so).
      * @return True if it is allowed.
      */
+    // called by 
+    // StockRound: buyShares, setBuyableCerts, startCompany
+    // StockRound 1835, 1880, 18EU: setBuyableCerts
+    // StockRound 18EU: startCompany
+    
+    // not overridden
     public boolean mayPlayerBuyCertificate(Player player, PublicCompany comp, float number) {
         if (comp.hasFloated() && comp.getCurrentSpace().isNoCertLimit())
             return true;
@@ -1554,12 +1800,18 @@ public class StockRound extends Round {
      * @param number The number of shares (usually 1 but not always so)
      * @return True if it is allowed.
      */
+    // called by 
+    // StockRound: buyShares, executeExchangeForShare, isPlayerOverLimits, setBuyableCerts, setSellableShares
+    // StockRound 18EU, 1880: setBuyableCerts
+    
+    // overriden by:
+    // StockRound 1835
     public boolean checkAgainstHoldLimit(Player player, PublicCompany company,
             int number) {
         // Check for per-company share limit
         if (player.getPortfolioModel().getShare(company)
                 + number * company.getShareUnit()
-                > getGameParameterAsInt(GameDef.Parm.PLAYER_SHARE_LIMIT)
+                > GameDef.getGameParameterAsInt(this, GameDef.Parm.PLAYER_SHARE_LIMIT)
                 && !company.getCurrentSpace().isNoHoldLimit()
                 && !isSellObligationLifted(company)) return false;
         return true;
@@ -1577,12 +1829,17 @@ public class StockRound extends Round {
      * @return The maximum number of such shares that would not let the player
      * overrun the per-company share hold limit.
      */
+    // called by 
+    // StockRound setBuyableCerts
+    // StockRound 1880, 18EU: setBuyableCerts
+    
+    // not overridden
     public int maxAllowedNumberOfSharesToBuy(Player player,
             PublicCompany company,
             int shareSize) {
 
         int limit;
-        int playerShareLimit = getGameParameterAsInt (GameDef.Parm.PLAYER_SHARE_LIMIT);
+        int playerShareLimit = GameDef.getGameParameterAsInt(this, GameDef.Parm.PLAYER_SHARE_LIMIT);
         if (!company.hasStarted()) {
             limit = playerShareLimit;
         } else {
@@ -1596,34 +1853,87 @@ public class StockRound extends Round {
     }
 
 
+    // called by 
+    // StockRound: checkFirstRoundSellRestriction
+    
+    // not overridden
     protected boolean noSaleInFirstSR() {
         return (Boolean) gameManager.getGameParameter(GameDef.Parm.NO_SALE_IN_FIRST_SR);
     }
-
+    
+    
+    // called by 
+    // StockRound: mayPlayerSellShareOfCompany
+    
+    // not overridden
     protected boolean noSaleIfNotOperated() {
         return (Boolean) gameManager.getGameParameter(GameDef.Parm.NO_SALE_IF_NOT_OPERATED);
     }
 
-    @Override
-    public String getHelp() {
-        return LocalText.getText("SRHelpText");
-    }
-
+    // called by
+    // 1835PrussianFormationRound: finishRound
+    // GameManager: processOnReload 
+    // GameUIManager: initSaveSettings, saveGame 
+    
+    // not overridden
     @Override
     public String getRoundName() {
         return "StockRound " + getStockRoundNumber();
     }
 
+    // Called by 
+    // StockRound: checkAgainstHoldLimit
+    
+    // not overridden
 	public boolean isSellObligationLifted(PublicCompany company) {
         return sellObligationLifted != null
         && sellObligationLifted.contains(company);
     }
 
+	// Called by 
+	// 18EU, 1837 StockRound: mergeCompanies
+	
+	// not overridden
 	public void setSellObligationLifted (PublicCompany company) {
         if (sellObligationLifted == null) {
 			sellObligationLifted = HashSetState.create(this, "sellObligationLifted");
         }
         sellObligationLifted.add(company);
     }
+	
+    public boolean requestTurn (Player player) {
+        if (canRequestTurn(player)) {
+            if (!hasRequestedTurn.contains(player)) hasRequestedTurn.add(player);
+            return true;
+        }
+        return false;
+    }
 
+    public boolean canRequestTurn (Player player) {
+        return canRequestTurn.contains(player);
+    }
+
+    public void setCanRequestTurn (Player player, boolean value) {
+        if (value && !canRequestTurn.contains(player)) {
+            canRequestTurn.add(player);
+        } else if (!value && canRequestTurn.contains(player)) {
+            canRequestTurn.remove(player);
+        }
+    }
+
+    public void setAutopass (Player player, boolean value) {
+        if (value && !autopasses.contains(player)) {
+            autopasses.add(player);
+        } else if (!value && autopasses.contains(player)) {
+            autopasses.remove(player);
+        }
+    }
+
+    public boolean hasAutopassed (Player player) {
+        return autopasses.contains(player);
+    }
+
+    public List<Player> getAutopasses() {
+        return autopasses.view();
+    }
 }

@@ -1,4 +1,4 @@
-package net.sf.rails.game;
+package net.sf.rails.game.financial;
 
 import java.util.*;
 
@@ -7,7 +7,14 @@ import net.sf.rails.common.DisplayBuffer;
 import net.sf.rails.common.GuiDef;
 import net.sf.rails.common.LocalText;
 import net.sf.rails.common.ReportBuffer;
+import net.sf.rails.game.GameDef;
+import net.sf.rails.game.GameManager;
+import net.sf.rails.game.OperatingRound;
+import net.sf.rails.game.Player;
+import net.sf.rails.game.PublicCompany;
+import net.sf.rails.game.GameDef.Parm;
 import net.sf.rails.game.model.PortfolioModel;
+import net.sf.rails.game.round.RoundFacade;
 import net.sf.rails.game.state.BooleanState;
 import net.sf.rails.game.state.Currency;
 import net.sf.rails.game.state.Portfolio;
@@ -17,6 +24,8 @@ import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
 
 
+// Change: TreasuryShareRound is a workaround as StockRound
+// It is a single Activity to allow companies buying or selling shares
 public class TreasuryShareRound extends StockRound {
 
     protected Player sellingPlayer;
@@ -33,7 +42,7 @@ public class TreasuryShareRound extends StockRound {
     }
 
     // TODO: Check if this still works, as the initialization was moved back to here
-    public void start(Round parentRound) {
+    public void start(RoundFacade parentRound) {
         log.info("Treasury share trading round started");
         operatingCompany = ((OperatingRound)parentRound).getOperatingCompany();
         sellingPlayer = operatingCompany.getPresident();
@@ -110,7 +119,7 @@ public class TreasuryShareRound extends StockRound {
             int ownedShare =
                     operatingCompany.getPortfolioModel().getShare(operatingCompany);
             // Max share that may be owned
-            int maxShare = getGameParameterAsInt(GameDef.Parm.TREASURY_SHARE_LIMIT);
+            int maxShare = GameDef.getGameParameterAsInt(this, GameDef.Parm.TREASURY_SHARE_LIMIT);
             // Max number of shares to add
             int maxBuyable =
                 (maxShare - ownedShare) / operatingCompany.getShareUnit();
@@ -162,7 +171,7 @@ public class TreasuryShareRound extends StockRound {
             /* May not sell more than the Pool can accept */
             maxShareToSell =
                 Math.min(maxShareToSell,
-                        getGameParameterAsInt(GameDef.Parm.POOL_SHARE_LIMIT)
+                        GameDef.getGameParameterAsInt(this, GameDef.Parm.POOL_SHARE_LIMIT)
                         - pool.getShare(company));
             if (maxShareToSell == 0) continue;
 
@@ -290,7 +299,7 @@ public class TreasuryShareRound extends StockRound {
             portfolio = operatingCompany.getPortfolioModel();
 
             // Check if company would exceed the per-company share limit
-            int treasuryShareLimit = getGameParameterAsInt(GameDef.Parm.TREASURY_SHARE_LIMIT);
+            int treasuryShareLimit = GameDef.getGameParameterAsInt(this, GameDef.Parm.TREASURY_SHARE_LIMIT);
             if (portfolio.getShare(company) + share > treasuryShareLimit) {
                 errMsg =
                     LocalText.getText("TreasuryOverHoldLimit",
@@ -412,7 +421,7 @@ public class TreasuryShareRound extends StockRound {
 
             // The pool may not get over its limit.
             if (pool.getShare(company) + numberToSell * company.getShareUnit()
-                    > getGameParameterAsInt(GameDef.Parm.POOL_SHARE_LIMIT)) {
+                    > GameDef.getGameParameterAsInt(this, GameDef.Parm.POOL_SHARE_LIMIT)) {
                 errMsg = LocalText.getText("PoolOverHoldLimit");
                 break;
             }

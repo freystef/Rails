@@ -10,6 +10,7 @@ import net.sf.rails.common.ReportBuffer;
 import net.sf.rails.common.parser.Configurable;
 import net.sf.rails.common.parser.ConfigurationException;
 import net.sf.rails.common.parser.Tag;
+import net.sf.rails.game.financial.Bank;
 import net.sf.rails.game.model.RailsModel;
 import net.sf.rails.game.state.ArrayListState;
 import net.sf.rails.game.state.BooleanState;
@@ -135,8 +136,19 @@ public class PlayerManager extends RailsManager implements Configurable {
         return playerNames.get(name);
     }
 
+    /**
+     * @return number of players including those which are bankrupt
+     */
     public int getNumberOfPlayers() {
         return playerModel.playerOrder.size();
+    }
+    
+    int getNumberOfActivePlayers() {
+        int number = 0;
+        for (Player player : getPlayers()) {
+            if (!player.isBankrupt()) number++;
+        }
+        return number;
     }
 
     // dynamic getter/setters
@@ -346,6 +358,13 @@ public class PlayerManager extends RailsManager implements Configurable {
             // and may be it is better to use another method instead of toText?
             return Util.joinWithDelimiter(playerOrder.view().toArray(new String[0]), ";");
         }
+    }
+    
+    /**
+     * @return number of players (non-bankrupt)
+     */
+    public static int getNumberOfActivePlayers(RailsItem item) {
+        return item.getRoot().getPlayerManager().getNumberOfActivePlayers();
     }
 
 }

@@ -12,6 +12,10 @@ import net.sf.rails.common.Config;
 import net.sf.rails.common.GuiDef;
 import net.sf.rails.common.LocalText;
 import net.sf.rails.game.*;
+import net.sf.rails.game.financial.ShareSellingRound;
+import net.sf.rails.game.financial.StockRound;
+import net.sf.rails.game.financial.TreasuryShareRound;
+import net.sf.rails.game.round.RoundFacade;
 import net.sf.rails.ui.swing.elements.*;
 
 import org.slf4j.Logger;
@@ -73,7 +77,7 @@ KeyListener, ActionPerformer {
 
     protected GameUIManager gameUIManager;
 
-    protected Round currentRound;
+    protected RoundFacade currentRound;
 
     protected PossibleActions possibleActions;
     protected PossibleAction immediateAction = null;
@@ -419,7 +423,7 @@ KeyListener, ActionPerformer {
         }
     }
 
-    public boolean setupFor(Round round) {
+    public boolean setupFor(RoundFacade round) {
 
         currentRound = round;
 
@@ -805,12 +809,7 @@ KeyListener, ActionPerformer {
 
     public void keyReleased(KeyEvent e) {}
 
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_F1) {
-            HelpWindow.displayHelp(gameUIManager.getHelp());
-            e.consume();
-        }
-    }
+    public void keyPressed(KeyEvent e) {}
 
     public void keyTyped(KeyEvent e) {}
 

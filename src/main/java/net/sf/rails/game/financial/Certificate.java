@@ -1,4 +1,4 @@
-package net.sf.rails.game;
+package net.sf.rails.game.financial;
 
 import net.sf.rails.game.state.Ownable;
 
@@ -11,9 +11,6 @@ import net.sf.rails.game.state.Ownable;
  * combining methods from both public and private certificates
  */
 public interface Certificate extends Ownable {
-
-    // returns the name of the certificate
-    public String getName();
 
     public float getCertificateCount();
 

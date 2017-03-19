@@ -6,7 +6,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-import net.sf.rails.game.StockSpace;
+import net.sf.rails.game.financial.StockSpace;
 import net.sf.rails.ui.swing.elements.GUIStockSpace;
 
 
@@ -118,12 +118,7 @@ public class StockChart extends JFrame implements KeyListener {
         horLabels.add(Box.createHorizontalGlue());
     }
 
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_F1) {
-            HelpWindow.displayHelp(gameUIManager.getGameManager().getHelp());
-            e.consume();
-        }
-    }
+    public void keyPressed(KeyEvent e) {}
 
     public void keyReleased(KeyEvent e) {}
 

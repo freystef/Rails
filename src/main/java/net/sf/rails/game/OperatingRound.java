@@ -14,7 +14,11 @@ import rails.game.action.*;
 import rails.game.correct.ClosePrivate;
 import rails.game.correct.OperatingCost;
 import net.sf.rails.common.*;
-import net.sf.rails.game.model.PortfolioModel;
+import net.sf.rails.game.financial.Bank;
+import net.sf.rails.game.financial.BankPortfolio;
+import net.sf.rails.game.financial.PublicCertificate;
+import net.sf.rails.game.financial.StockSpace;
+import net.sf.rails.game.round.RoundFacade;
 import net.sf.rails.game.special.*;
 import net.sf.rails.game.state.*;
 import net.sf.rails.util.SequenceUtil;
@@ -52,7 +56,6 @@ public class OperatingRound extends Round implements Observer {
     // TODO: Question is this remark above still relevant?
 
     // Non-persistent lists (are recreated after each user action)
-    protected List<SpecialProperty> currentSpecialProperties = null;
 
     protected final HashMapState<String, Integer> tileLaysPerColour =
             HashMapState.create(this, "tileLaysPerColour");
@@ -154,7 +157,7 @@ public class OperatingRound extends Round implements Observer {
                 // Bank Portfolios are not MoneyOwners!
                 if (priv.getOwner() instanceof MoneyOwner) {
                     MoneyOwner recipient = (MoneyOwner) priv.getOwner();
-                    int revenue = priv.getRevenueByPhase(getCurrentPhase());
+                    int revenue = priv.getRevenueByPhase(Phase.getCurrent(this));
                     
                     if (revenue != 0) {
                         if (count++ == 0) ReportBuffer.add(this, "");
@@ -293,13 +296,6 @@ public class OperatingRound extends Round implements Observer {
         } else if (selectedAction instanceof RepayLoans) {
 
             result = repayLoans((RepayLoans) selectedAction);
-
-        } else if (selectedAction instanceof ExchangeTokens) {
-
-            result = exchangeTokens((ExchangeTokens) selectedAction, false); // 2nd
-                                                                             // parameter:
-                                                                             // unlinked
-                                                                             // moveset
 
         } else if (selectedAction instanceof ClosePrivate) {
 
@@ -782,13 +778,13 @@ public class OperatingRound extends Round implements Observer {
                 int poolShare = pool.getShare(company); // Expensive, do it once
                 // Can it buy?
                 boolean canBuy =
-                        ownShare < getGameParameterAsInt(GameDef.Parm.TREASURY_SHARE_LIMIT)
+                        ownShare < GameDef.getGameParameterAsInt(this, GameDef.Parm.TREASURY_SHARE_LIMIT)
                                 && company.getCash() >= company.getCurrentSpace().getPrice()
                                 && poolShare > 0;
                 // Can it sell?
                 boolean canSell =
                         company.getPortfolioModel().getShare(company) > 0
-                                && poolShare < getGameParameterAsInt(GameDef.Parm.POOL_SHARE_LIMIT);
+                                && poolShare < GameDef.getGameParameterAsInt(this, GameDef.Parm.POOL_SHARE_LIMIT);
                 // Above we ignore the possible existence of double shares (as
                 // in 1835).
 
@@ -840,8 +836,6 @@ public class OperatingRound extends Round implements Observer {
             // getNormalTileLays();
         } else if (step == GameDef.OrStep.LAY_TOKEN) {
 
-        } else {
-            currentSpecialProperties = null;
         }
 
     }
@@ -1083,7 +1077,7 @@ public class OperatingRound extends Round implements Observer {
     }
 
     protected boolean isPrivateSellingAllowed() {
-        return getCurrentPhase().isPrivateSellingAllowed();
+        return Phase.getCurrent(this).isPrivateSellingAllowed();
     }
 
     protected int getPrivateMinimumPrice(PrivateCompany privComp) {
@@ -1465,7 +1459,7 @@ public class OperatingRound extends Round implements Observer {
 
             if (tile == null) break;
 
-            if (!getCurrentPhase().isTileColourAllowed(tile.getColourText())) {
+            if (!Phase.getCurrent(this).isTileColourAllowed(tile.getColourText())) {
                 errMsg =
                         LocalText.getText("TileNotYetAvailable", tile.toText());
                 break;
@@ -1692,7 +1686,7 @@ public class OperatingRound extends Round implements Observer {
 
         // duplicate the phase colours
         Map<String, Integer> newTileColours = new HashMap<String, Integer>();
-        for (String colour : getCurrentPhase().getTileColours()) {
+        for (String colour : Phase.getCurrent(this).getTileColours()) {
             int allowedNumber =
                     operatingCompany.value().getNumberOfTileLays(colour);
             // Replace the null map value with the allowed number of lays
@@ -1802,7 +1796,7 @@ public class OperatingRound extends Round implements Observer {
         Tile tile = stl.getTile();
 
         // What colours can be laid in the current phase?
-        List<String> phaseColours = getCurrentPhase().getTileColours();
+        List<String> phaseColours = Phase.getCurrent(this).getTileColours();
 
         // Which tile colour(s) are specified explicitly...
         String[] stlc = stl.getTileColours();
@@ -2878,7 +2872,7 @@ public class OperatingRound extends Round implements Observer {
 
         /* End of validation, start of execution */
 
-        Phase previousPhase = getCurrentPhase();
+        Phase previousPhase = Phase.getCurrent(this);
 
         if (presidentMustSellShares) {
             savedAction = action;
@@ -2949,7 +2943,7 @@ public class OperatingRound extends Round implements Observer {
         trainManager.checkTrainAvailability(train, oldOwner);
 
         // Check if any companies must discard trains
-        if (getCurrentPhase() != previousPhase && checkForExcessTrains()) {
+        if (Phase.getCurrent(this) != previousPhase && checkForExcessTrains()) {
             stepObject.set(GameDef.OrStep.DISCARD_TRAINS);
         }
 
@@ -3022,10 +3016,10 @@ public class OperatingRound extends Round implements Observer {
 
         // First check if any more trains may be bought from the Bank
         // Postpone train limit checking, because an exchange might be possible
-        if (getCurrentPhase().canBuyMoreTrainsPerTurn()
+        if (Phase.getCurrent(this).canBuyMoreTrainsPerTurn()
             || trainsBoughtThisTurn.isEmpty()) {
             boolean mayBuyMoreOfEachType =
-                    getCurrentPhase().canBuyMoreTrainsPerTypePerTurn();
+                    Phase.getCurrent(this).canBuyMoreTrainsPerTypePerTurn();
 
             /* New trains */
             trains = trainManager.getAvailableNewTrains();
@@ -3116,9 +3110,9 @@ public class OperatingRound extends Round implements Observer {
                 // with president cash
                 // even if the company has enough cash to buy a used train.
                 // Players who think differently can ignore that extra option.
-                || getGameParameterAsBoolean(GameDef.Parm.EMERGENCY_MAY_ALWAYS_BUY_NEW_TRAIN)
+                || GameDef.getGameParameterAsBoolean(this, GameDef.Parm.EMERGENCY_MAY_ALWAYS_BUY_NEW_TRAIN)
                 && !newEmergencyTrains.isEmpty()) {
-                if (getGameParameterAsBoolean(GameDef.Parm.EMERGENCY_MUST_BUY_CHEAPEST_TRAIN)) {
+                if (GameDef.getGameParameterAsBoolean(this, GameDef.Parm.EMERGENCY_MUST_BUY_CHEAPEST_TRAIN)) {
                     // Find the cheapest one
                     // Assume there is always one available from IPO
                     int cheapestTrainCost = newEmergencyTrains.firstKey();
@@ -3163,7 +3157,7 @@ public class OperatingRound extends Round implements Observer {
         if (!canBuyTrainNow) return;
 
         /* Other company trains, sorted by president (current player first) */
-        if (getCurrentPhase().isTrainTradingAllowed()) {
+        if (Phase.getCurrent(this).isTrainTradingAllowed()) {
             BuyTrain bt;
             Player p;
             int index;
@@ -3199,7 +3193,7 @@ public class OperatingRound extends Round implements Observer {
                             continue;
                         bt = null;
                         if (i != currentPlayerIndex
-                            && getGameParameterAsBoolean(GameDef.Parm.FIXED_PRICE_TRAINS_BETWEEN_PRESIDENTS)
+                            && GameDef.getGameParameterAsBoolean(this, GameDef.Parm.FIXED_PRICE_TRAINS_BETWEEN_PRESIDENTS)
                             || operatingCompany.value().mustTradeTrainsAtFixedPrice()
                             || company.mustTradeTrainsAtFixedPrice()) {
                             // Fixed price
@@ -3215,7 +3209,7 @@ public class OperatingRound extends Round implements Observer {
                             }
                         } else if (cash > 0
                                    || emergency
-                                   && getGameParameterAsBoolean(GameDef.Parm.EMERGENCY_MAY_BUY_FROM_COMPANY)) {
+                                   && GameDef.getGameParameterAsBoolean(this, GameDef.Parm.EMERGENCY_MAY_BUY_FROM_COMPANY)) {
                             // TODO: Check if this still works, as now the
                             // company is the from type
                             bt = new BuyTrain(train, company, 0);
@@ -3250,7 +3244,7 @@ public class OperatingRound extends Round implements Observer {
     }
 
     public void checkForeignSales() {
-        if (getGameParameterAsBoolean(GameDef.Parm.REMOVE_TRAIN_BEFORE_SR)
+        if (GameDef.getGameParameterAsBoolean(this, GameDef.Parm.REMOVE_TRAIN_BEFORE_SR)
             && trainManager.isAnyTrainBought()) {
             Train train =
                     Iterables.get(trainManager.getAvailableNewTrains(), 0);
@@ -3280,88 +3274,6 @@ public class OperatingRound extends Round implements Observer {
         return specialProperties;
     }
 
-    @Override
-    public List<SpecialProperty> getSpecialProperties() {
-        return currentSpecialProperties;
-    }
-
-    /* TODO This is just a start of a possible approach to a Help system */
-    @Override
-    public String getHelp() {
-        GameDef.OrStep step = getStep();
-        StringBuffer b = new StringBuffer();
-        b.append("<big>Operating round: ").append(thisOrNumber).append(
-                "</big><br>");
-        b.append("<br><b>").append(operatingCompany.value().getId()).append(
-                "</b> (president ").append(
-                playerManager.getCurrentPlayer().getId()).append(
-                ") has the turn.");
-        b.append("<br><br>Currently allowed actions:");
-        switch (step) {
-        case LAY_TRACK:
-            b.append("<br> - Lay a tile");
-            b.append("<br> - Press 'Done' if you do not want to lay a tile");
-            break;
-        case LAY_TOKEN:
-            b.append("<br> - Lay a base token or press Done");
-            b.append("<br> - Press 'Done' if you do not want to lay a base");
-            break;
-        case CALC_REVENUE:
-            b.append("<br> - Enter new revenue amount");
-            b.append("<br> - Press 'Done' if your revenue is zero");
-            break;
-        case PAYOUT:
-            b.append("<br> - Choose how the revenue will be paid out");
-            break;
-        case BUY_TRAIN:
-            b.append("<br> - Buy one or more trains");
-            b.append("<br> - Press 'Done' to finish your turn");
-            break;
-        case DISCARD_TRAINS:
-            b.append("<br> - Choose the trains to discard");
-            break;
-        case FINAL:
-            b.append("<br> - End the turn");
-            break;
-        case INITIAL:
-            break;
-        case REPAY_LOANS:
-            b.append("<br> - Repay an outstanding loan");
-            break;
-        case TRADE_SHARES:
-            b.append("<br> - Buy or sell shares for/from the company");
-            break;
-        default:
-            break;
-        }
-
-        /* TODO: The below if needs be refined. */
-        if (getCurrentPhase().isPrivateSellingAllowed()
-            && step != GameDef.OrStep.PAYOUT) {
-            b.append("<br> - Buy one or more Privates");
-        }
-
-        if (step == GameDef.OrStep.LAY_TRACK) {
-            b.append("<br><br><b>Tile laying</b> proceeds as follows:");
-            b.append("<br><br> 1. On the map, select the hex that you want to lay a new tile upon.");
-            b.append("<br>If tile laying is allowed on this hex, the current tile will shrink a bit <br>and a red background will show up around its edges;");
-            b.append("<br>in addition, the tiles that can be laid on that hex will be displayed<br> in the 'upgrade panel' at the left hand side of the map.");
-            b.append("<br>If tile laying is not allowed there, nothing will happen.");
-            b.append("<br><br> 2. Select a tile in the upgrade panel.<br>This tile will be copied to the selected hex,<br>in some orientation");
-            b.append("<br><br> 3. If you want to turn the tile just laid to a different orientation, click it.");
-            b.append("<br>Repeatedly clicking the tile will rotate it through all allowed orientations.");
-            b.append("<br><br> 4. Confirm tile laying by clicking 'Done'");
-            b.append("<br><br>Before 'Done' has been pressed, you can change your mind<br>as often as you want");
-            b.append(" (presuming that the other players don't get angry).");
-            b.append("<br> - If you want to select another hex: repeat step 1");
-            b.append("<br> - If you want to lay another tile on the currently selected hex: repeat step 2.");
-            b.append("<br> - If you want to undo hex selection: click outside of the map hexes.");
-            b.append("<br> - If you don't want to lay a tile after all: press 'Cancel'");
-        }
-
-        return b.toString();
-    }
-
     /**
      * Update the status if the step has changed by an Undo or Redo
      */
@@ -3375,7 +3287,7 @@ public class OperatingRound extends Round implements Observer {
     }
 
     /** @Overrides */
-    public boolean equals(Round round) {
+    public boolean equals(RoundFacade round) {
         return round instanceof OperatingRound
                && thisOrNumber.equals(((OperatingRound) round).thisOrNumber);
     }

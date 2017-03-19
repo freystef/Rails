@@ -10,6 +10,10 @@ import net.sf.rails.common.GuiDef;
 import net.sf.rails.common.LocalText;
 import net.sf.rails.common.ReportBuffer;
 import net.sf.rails.game.*;
+import net.sf.rails.game.financial.Bank;
+import net.sf.rails.game.financial.PublicCertificate;
+import net.sf.rails.game.financial.StockRound;
+import net.sf.rails.game.round.RoundFacade;
 import net.sf.rails.game.special.ExchangeForShare;
 import net.sf.rails.game.special.SpecialProperty;
 import net.sf.rails.game.state.Currency;
@@ -44,6 +48,8 @@ public class PrussianFormationRound extends StockRound {
     /**
      * Constructed via Configure
      */
+    // change: PrussianFormationRound is a triggered MergerRound
+    // requires: make an independent round type with the merger and related activities
     public PrussianFormationRound (GameManager parent, String id) {
         super(parent, id);
 
@@ -55,7 +61,7 @@ public class PrussianFormationRound extends StockRound {
     public void start() {
 
         prussian = companyManager.getPublicCompany(PR_ID);
-        phase = getCurrentPhase();
+        phase = Phase.getCurrent(this);
         startPr = !prussian.hasStarted();
         forcedMerge = phase.getId().equals("5");
         forcedStart = phase.getId().equals("4+4") || forcedMerge;
@@ -453,7 +459,7 @@ public class PrussianFormationRound extends StockRound {
 
     @Override
     protected void finishRound() {
-        Round interruptedRound = gameManager.getInterruptedRound();
+        RoundFacade interruptedRound = gameManager.getInterruptedRound();
         ReportBuffer.add(this, " ");
         if (interruptedRound != null) {
             ReportBuffer.add(this, LocalText.getText("EndOfFormationRound", PR_ID,

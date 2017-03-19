@@ -6,13 +6,13 @@ import java.util.List;
 import net.sf.rails.common.DisplayBuffer;
 import net.sf.rails.common.LocalText;
 import net.sf.rails.common.ReportBuffer;
-import net.sf.rails.game.Bank;
-import net.sf.rails.game.Certificate;
 import net.sf.rails.game.GameManager;
 import net.sf.rails.game.Player;
-import net.sf.rails.game.PublicCertificate;
 import net.sf.rails.game.StartItem;
 import net.sf.rails.game.StartRound;
+import net.sf.rails.game.financial.Bank;
+import net.sf.rails.game.financial.Certificate;
+import net.sf.rails.game.financial.PublicCertificate;
 import net.sf.rails.game.state.Currency;
 import net.sf.rails.game.state.GenericState;
 import net.sf.rails.game.state.IntegerState;
@@ -343,7 +343,7 @@ public class StartRound_1837_Coal extends StartRound {
             ReportBuffer.add(
                     this,
                     LocalText.getText("BuysItemFor", player.getId(),
-                            primary.getName(), Bank.format(this, price)));
+                            primary.toText(), Bank.format(this, price)));
             PublicCertificate secondary =
                     (PublicCertificate) item.getSecondary();
             playerManager.setCurrentPlayer(player);
@@ -387,7 +387,7 @@ public class StartRound_1837_Coal extends StartRound {
 
                 pendingCertificate.value().moveTo(player);
                 ReportBuffer.add(this, LocalText.getText("ALSO_GETS",
-                        player.getId(), pendingCertificate.value().getName()));
+                        player.getId(), pendingCertificate.value().toText()));
 
                 PublicCompany_1837 company =
                         (PublicCompany_1837) castAction.getCompany();
@@ -419,11 +419,5 @@ public class StartRound_1837_Coal extends StartRound {
         }
         return result;
     }
-
-    @Override
-    public String getHelp() {
-        return "1837 Start Round help text";
-    }
-
 
 }

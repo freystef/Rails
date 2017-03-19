@@ -5,6 +5,7 @@ import net.sf.rails.common.DisplayBuffer;
 import net.sf.rails.common.GameOption;
 import net.sf.rails.common.LocalText;
 import net.sf.rails.common.ReportBuffer;
+import net.sf.rails.game.financial.Bank;
 import net.sf.rails.game.state.GenericState;
 
 /**
@@ -385,11 +386,6 @@ public class StartRound_1830 extends StartRound {
     
     private void setNextBiddingPlayer(StartItem item) {
         setNextBiddingPlayer(item, playerManager.getCurrentPlayer());
-    }
-
-    @Override
-    public String getHelp() {
-        return "1830 Start Round help text";
     }
 
 }

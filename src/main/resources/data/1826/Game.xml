@@ -35,7 +35,7 @@
 		<Players number="5" cash="360" certLimit="13"/>
 		<Players number="6" cash="300" certLimit="11"/>		
 	</Component>
-	<Component name="Bank" class="net.sf.rails.game.Bank">
+	<Component name="Bank" class="net.sf.rails.game.financial.Bank">
 		<Bank amount="12000"/>
 	</Component>
 	<Component name="TileManager" class="net.sf.rails.game.TileManager" 
@@ -43,7 +43,7 @@
 	<Component name="Map" class="net.sf.rails.game.MapManager" file="Map.xml"/>
 	<Component name="CompanyManager" class="net.sf.rails.game.CompanyManager" 
 		file="CompanyManager.xml"/>
-	<Component name="StockMarket" class="net.sf.rails.game.StockMarket" 
+	<Component name="StockMarket" class="net.sf.rails.game.financial.StockMarket" 
 		file="StockMarket.xml"/>
 	<Component name="TrainManager" class="net.sf.rails.game.TrainManager">
 		<Defaults>

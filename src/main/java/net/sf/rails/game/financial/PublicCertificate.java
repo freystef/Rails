@@ -1,4 +1,4 @@
-package net.sf.rails.game;
+package net.sf.rails.game.financial;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -6,6 +6,10 @@ import java.util.Map;
 import java.util.SortedSet;
 
 import net.sf.rails.common.LocalText;
+import net.sf.rails.game.PublicCompany;
+import net.sf.rails.game.RailsItem;
+import net.sf.rails.game.RailsOwnableItem;
+import net.sf.rails.game.RailsRoot;
 import net.sf.rails.game.model.CertificatesModel;
 import net.sf.rails.game.state.IntegerState;
 import net.sf.rails.game.state.Ownable;
@@ -180,28 +184,6 @@ public class PublicCertificate extends RailsOwnableItem<PublicCertificate> imple
         return ((Integer) shares.value()) * company.getShareUnit();
     }
 
-    /**
-     * Get the name of a certificate. The name is derived from the company name
-     * and the share percentage of this certificate. If it is a 100% share (as
-     * occurs with e.g. 1835 minors), only the company name is given. If it is a
-     * president's share, that fact is mentioned.
-     * FIXME: This was renamed from getID(), this will cause some display errors
-     */
-    public String getName() {
-        int share = getShare();
-        if (share == 100) {
-            /* Applies to shareless minors: just name the company */
-            return company.getId();
-        } else if (president) {
-            return LocalText.getText("PRES_CERT_NAME",
-                    company.getId(),
-                    getShare() );
-        } else {
-            return LocalText.getText("CERT_NAME",
-                    company.getId(),
-                    getShare());
-        }
-    }
 
     public void setInitiallyAvailable(boolean initiallyAvailable) {
         this.initiallyAvailable = initiallyAvailable;
@@ -292,9 +274,27 @@ public class PublicCertificate extends RailsOwnableItem<PublicCertificate> imple
     }
 
     // Item interface
+    /**
+     * Get the name of a certificate. The name is derived from the company name
+     * and the share percentage of this certificate. If it is a 100% share (as
+     * occurs with e.g. 1835 minors), only the company name is given. If it is a
+     * president's share, that fact is mentioned.
+     */
     @Override
     public String toText() {
-        return getName();
+        int share = getShare();
+        if (share == 100) {
+            /* Applies to shareless minors: just name the company */
+            return company.getId();
+        } else if (president) {
+            return LocalText.getText("PRES_CERT_NAME",
+                    company.getId(),
+                    getShare() );
+        } else {
+            return LocalText.getText("CERT_NAME",
+                    company.getId(),
+                    getShare());
+        }
     }
     
 }

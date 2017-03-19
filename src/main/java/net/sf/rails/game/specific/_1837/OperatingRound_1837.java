@@ -9,16 +9,16 @@ import java.util.Set;
 import net.sf.rails.common.DisplayBuffer;
 import net.sf.rails.common.LocalText;
 import net.sf.rails.common.ReportBuffer;
-import net.sf.rails.game.Bank;
 import net.sf.rails.game.GameDef;
 import net.sf.rails.game.GameManager;
 import net.sf.rails.game.MapHex;
-import net.sf.rails.game.NationalFormationRound;
 import net.sf.rails.game.OperatingRound;
 import net.sf.rails.game.Phase;
 import net.sf.rails.game.Player;
 import net.sf.rails.game.PrivateCompany;
 import net.sf.rails.game.PublicCompany;
+import net.sf.rails.game.financial.Bank;
+import net.sf.rails.game.financial.NationalFormationRound;
 import net.sf.rails.game.special.ExchangeForShare;
 import net.sf.rails.game.special.SpecialProperty;
 import net.sf.rails.game.state.BooleanState;
@@ -60,7 +60,7 @@ public class OperatingRound_1837 extends OperatingRound {
 
     @Override
     protected void newPhaseChecks() {
-        Phase phase = getCurrentPhase();
+        Phase phase = Phase.getCurrent(this);
         if (phase.getId().equals("3")) {
           for(PrivateCompany comp:gameManager.getAllPrivateCompanies())  {
               comp.unblockHexes();

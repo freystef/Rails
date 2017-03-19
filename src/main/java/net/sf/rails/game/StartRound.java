@@ -5,6 +5,9 @@ import java.util.List;
 import rails.game.action.*;
 import net.sf.rails.common.*;
 import net.sf.rails.util.Util;
+import net.sf.rails.game.financial.Bank;
+import net.sf.rails.game.financial.Certificate;
+import net.sf.rails.game.financial.PublicCertificate;
 import net.sf.rails.game.state.ArrayListState;
 import net.sf.rails.game.state.Currency;
 import net.sf.rails.game.state.IntegerState;
@@ -251,7 +254,7 @@ public abstract class StartRound extends Round {
         String priceText = Currency.toBank(player, price);
         ReportBuffer.add(this,LocalText.getText("BuysItemFor",
                 player.getId(),
-                primary.getName(),
+                primary.toText(),
                 priceText ));
         primary.moveTo(player);
         checksOnBuying(primary, sharePrice);
@@ -259,7 +262,7 @@ public abstract class StartRound extends Round {
             Certificate extra = item.getSecondary();
             ReportBuffer.add(this,LocalText.getText("ALSO_GETS",
                     player.getId(),
-                    extra.getName() ));
+                    extra.toText()));
             extra.moveTo(player);
             checksOnBuying(extra, sharePrice);
         }

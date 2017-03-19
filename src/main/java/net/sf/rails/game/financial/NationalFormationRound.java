@@ -1,4 +1,4 @@
-package net.sf.rails.game;
+package net.sf.rails.game.financial;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,11 +8,23 @@ import java.util.Set;
 import rails.game.action.DiscardTrain;
 import rails.game.action.FoldIntoNational;
 import rails.game.action.PossibleAction;
+
 import com.google.common.collect.Iterables;
 
 import net.sf.rails.common.DisplayBuffer;
 import net.sf.rails.common.LocalText;
 import net.sf.rails.common.ReportBuffer;
+import net.sf.rails.game.BaseToken;
+import net.sf.rails.game.Company;
+import net.sf.rails.game.GameManager;
+import net.sf.rails.game.MapHex;
+import net.sf.rails.game.Phase;
+import net.sf.rails.game.Player;
+import net.sf.rails.game.PrivateCompany;
+import net.sf.rails.game.PublicCompany;
+import net.sf.rails.game.Stop;
+import net.sf.rails.game.Train;
+import net.sf.rails.game.round.RoundFacade;
 import net.sf.rails.game.special.ExchangeForShare;
 import net.sf.rails.game.special.SpecialProperty;
 import net.sf.rails.game.state.Currency;
@@ -57,7 +69,7 @@ public class NationalFormationRound extends StockRound {
     public void start() {
     
         PublicCompany nationalToFound = gameManager.getNationalToFound();
-        phase = getCurrentPhase();
+        phase = Phase.getCurrent(this);
         startNational = !nationalToFound.hasStarted();
         forcedMerge = phase.getId().equals("5"); //TODO Make setable
         forcedStart = phase.getId().equals("4+4") || forcedMerge;//TODO Make setable
@@ -454,7 +466,7 @@ public class NationalFormationRound extends StockRound {
 
     @Override
     protected void finishRound() {
-        Round interruptedRound = gameManager.getInterruptedRound();
+        RoundFacade interruptedRound = gameManager.getInterruptedRound();
         ReportBuffer.add(this, " ");
         if (interruptedRound != null) {
             ReportBuffer.add(this, LocalText.getText("EndOfFormationRound", nationalToFound.getId(),

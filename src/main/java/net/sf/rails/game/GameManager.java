@@ -13,7 +13,13 @@ import java.util.TreeMap;
 import net.sf.rails.common.*;
 import net.sf.rails.common.parser.*;
 import net.sf.rails.game.PlayerManager.PlayerOrderModel;
+import net.sf.rails.game.financial.Bank;
+import net.sf.rails.game.financial.ShareSellingRound;
+import net.sf.rails.game.financial.StockRound;
+import net.sf.rails.game.financial.StockSpace;
+import net.sf.rails.game.financial.TreasuryShareRound;
 import net.sf.rails.game.model.PortfolioModel;
+import net.sf.rails.game.round.RoundFacade;
 import net.sf.rails.game.special.SpecialBonusTokenLay;
 import net.sf.rails.game.special.SpecialProperty;
 import net.sf.rails.game.state.*;
@@ -84,8 +90,8 @@ public class GameManager extends RailsManager implements Configurable, Owner {
      * been sold, it finishes by starting an Operating Round, which handles the
      * privates payout and then immediately starts a new Start Round.
      */
-    protected final GenericState<Round> currentRound = GenericState.create(this, "currentRound");
-    protected Round interruptedRound = null;
+    protected final GenericState<RoundFacade> currentRound = GenericState.create(this, "currentRound");
+    protected RoundFacade interruptedRound = null;
 
     protected final IntegerState startRoundNumber = IntegerState.create(this, "startRoundNumber");
     protected final IntegerState srNumber = IntegerState.create(this, "srNumber");
@@ -114,9 +120,6 @@ public class GameManager extends RailsManager implements Configurable, Owner {
     /** Flags to be passed to the UI, aiding the layout definition */
     protected final EnumMap<GuiDef.Parm, Boolean> guiParameters =
         new EnumMap<GuiDef.Parm, Boolean>(GuiDef.Parm.class);
-
-    protected String gmName;
-    protected String gmKey;
 
     protected GenericState<StartPacket> startPacket = GenericState.create(this, "startPacket");
 
@@ -203,7 +206,7 @@ public class GameManager extends RailsManager implements Configurable, Owner {
             if (srTag != null) {
                 // FIXME: Rails 2.0, move this to some default .xml!
                 String srClassName =
-                    srTag.getAttributeAsString("class", "net.sf.rails.game.StockRound");
+                    srTag.getAttributeAsString("class", "net.sf.rails.game.financial.StockRound");
                 try {
                     stockRoundClass =
                         Class.forName(srClassName).asSubclass(StockRound.class);
@@ -468,7 +471,7 @@ public class GameManager extends RailsManager implements Configurable, Owner {
         return possibleActions;
     }
 
-    protected void setRound(Round round) {
+    protected void setRound(RoundFacade round) {
         currentRound.set(round);
     }
 
@@ -582,7 +585,7 @@ public class GameManager extends RailsManager implements Configurable, Owner {
     }
 
     // FIXME: We need an ID!
-    protected <T extends Round> T createRound (Class<T> roundClass, String roundClassName, String id) {
+    protected <T extends RoundFacade> T createRound (Class<T> roundClass, String roundClassName, String id) {
         T round = null;
         try {
             round = Configure.create(roundClass, roundClassName, GameManager.class, this, id);
@@ -596,7 +599,7 @@ public class GameManager extends RailsManager implements Configurable, Owner {
     }
     
     // FIXME: We need an ID!
-    protected <T extends Round> T createRound(Class<T> roundClass, String id) {
+    protected <T extends RoundFacade> T createRound(Class<T> roundClass, String id) {
         T round = null;
         try {
             round = Configure.create(roundClass, GameManager.class, this, id); 
@@ -609,7 +612,7 @@ public class GameManager extends RailsManager implements Configurable, Owner {
         return round;
     }
 
-    public void newPhaseChecks (Round round) {
+    public void newPhaseChecks (RoundFacade round) {
 
     }
     
@@ -1194,11 +1197,11 @@ public class GameManager extends RailsManager implements Configurable, Owner {
         return b;
     }
 
-    public Round getCurrentRound() {
+    public RoundFacade getCurrentRound() {
         return currentRound.value();
     }
 
-    public GenericState<Round> getCurrentRoundModel() {
+    public GenericState<RoundFacade> getCurrentRoundModel() {
         return currentRound;
     }
     public List<PublicCompany> getAllPublicCompanies() {
@@ -1228,10 +1231,6 @@ public class GameManager extends RailsManager implements Configurable, Owner {
 
     public Phase getCurrentPhase() {
         return getRoot().getPhaseManager().getCurrentPhase();
-    }
-
-    public String getHelp() {
-        return getCurrentRound().getHelp();
     }
 
     public boolean canAnyCompanyHoldShares() {
@@ -1286,7 +1285,7 @@ public class GameManager extends RailsManager implements Configurable, Owner {
         }
     }
 
-    public Round getInterruptedRound() {
+    public RoundFacade getInterruptedRound() {
         return interruptedRound;
     }
 

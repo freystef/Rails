@@ -1,7 +1,8 @@
-package net.sf.rails.game;
+package net.sf.rails.game.financial;
 
 import java.awt.Color;
 
+import net.sf.rails.game.PublicCompany;
 import net.sf.rails.game.model.RailsModel;
 import net.sf.rails.game.state.ArrayListState;
 

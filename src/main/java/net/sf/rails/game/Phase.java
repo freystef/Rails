@@ -483,5 +483,9 @@ public class Phase extends RailsModel implements Configurable {
     public String toText() {
         return getRealName();
     }
-
+    
+    public static Phase getCurrent(RailsItem item) {
+        return item.getRoot().getPhaseManager().getCurrentPhase();
+    }
+    
 }

@@ -13,22 +13,23 @@ import net.sf.rails.common.DisplayBuffer;
 import net.sf.rails.common.LocalText;
 import net.sf.rails.common.ReportBuffer;
 import net.sf.rails.common.GuiDef;
-import net.sf.rails.game.Bank;
 import net.sf.rails.game.BaseToken;
 import net.sf.rails.game.GameDef;
 import net.sf.rails.game.GameDef.OrStep;
 import net.sf.rails.game.GameManager;
 import net.sf.rails.game.MapHex;
 import net.sf.rails.game.OperatingRound;
+import net.sf.rails.game.Phase;
 import net.sf.rails.game.Player;
 import net.sf.rails.game.PrivateCompany;
-import net.sf.rails.game.PublicCertificate;
 import net.sf.rails.game.PublicCompany;
 import net.sf.rails.game.Stop;
 import net.sf.rails.game.Tile;
 import net.sf.rails.game.Train;
 import net.sf.rails.game.TrainManager;
 import net.sf.rails.game.TrainType;
+import net.sf.rails.game.financial.Bank;
+import net.sf.rails.game.financial.PublicCertificate;
 import net.sf.rails.game.model.PortfolioModel;
 import net.sf.rails.game.special.SpecialTileLay;
 import net.sf.rails.game.special.SpecialTrainBuy;
@@ -140,7 +141,7 @@ public class OperatingRound_1880 extends OperatingRound {
          */
         // duplicate the phase colours
         Map<String, Integer> newTileColours = new HashMap<String, Integer>();
-        for (String colour : getCurrentPhase().getTileColours()) {
+        for (String colour : Phase.getCurrent(this).getTileColours()) {
             int allowedNumber =
                     operatingCompany.value().getNumberOfTileLays(colour);
             // Replace the null map value with the allowed number of lays
@@ -730,7 +731,7 @@ public class OperatingRound_1880 extends OperatingRound {
 
             if (tile == null) break;
 
-            if (!getCurrentPhase().isTileColourAllowed(tile.getColourText())) {
+            if (!Phase.getCurrent(this).isTileColourAllowed(tile.getColourText())) {
                 errMsg =
                         LocalText.getText("TileNotYetAvailable",
                                 tile.toText());
@@ -1048,10 +1049,10 @@ public class OperatingRound_1880 extends OperatingRound {
 
             // First check if any more trains may be bought from the Bank
             // Postpone train limit checking, because an exchange might be possible
-            if (getCurrentPhase().canBuyMoreTrainsPerTurn()
+            if (Phase.getCurrent(this).canBuyMoreTrainsPerTurn()
                     || trainsBoughtThisTurn.isEmpty()) {
                 boolean mayBuyMoreOfEachType =
-                    getCurrentPhase().canBuyMoreTrainsPerTypePerTurn();
+                        Phase.getCurrent(this).canBuyMoreTrainsPerTypePerTurn();
 
                 /* New trains */
                 trains = trainMgr.getAvailableNewTrains();
@@ -1152,7 +1153,7 @@ public class OperatingRound_1880 extends OperatingRound {
             if (!canBuyTrainNow) return;
 
             /* Other company trains, sorted by president (current player first) */
-            if (getCurrentPhase().isTrainTradingAllowed()) {
+            if (Phase.getCurrent(this).isTrainTradingAllowed()) {
                 BuyTrain bt;
                 Player p;
                 PortfolioModel pfm;
@@ -1189,7 +1190,7 @@ public class OperatingRound_1880 extends OperatingRound {
                             if (train.isObsolete() || !train.isTradeable()) continue;
                             bt = null;
                             if (i != currentPlayerIndex
-                                    && getGameParameterAsBoolean(GameDef.Parm.FIXED_PRICE_TRAINS_BETWEEN_PRESIDENTS)
+                                    && GameDef.getGameParameterAsBoolean(this, GameDef.Parm.FIXED_PRICE_TRAINS_BETWEEN_PRESIDENTS)
                                     || operatingCompany.value().mustTradeTrainsAtFixedPrice()
                                     || company.mustTradeTrainsAtFixedPrice()) {
                                 // Fixed price
@@ -1200,7 +1201,7 @@ public class OperatingRound_1880 extends OperatingRound {
                                 }
                             } else if (cash > 0
                                     || emergency
-                                    && getGameParameterAsBoolean (GameDef.Parm.EMERGENCY_MAY_BUY_FROM_COMPANY)) {
+                                    && GameDef.getGameParameterAsBoolean(this, GameDef.Parm.EMERGENCY_MAY_BUY_FROM_COMPANY)) {
                                 bt = new BuyTrain(train, pfm.getParent(), 0);
 
                                 // In some games the president may add extra cash up to the list price

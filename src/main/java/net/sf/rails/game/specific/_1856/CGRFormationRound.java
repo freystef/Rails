@@ -7,6 +7,9 @@ import com.google.common.collect.Lists;
 import rails.game.action.*;
 import net.sf.rails.common.*;
 import net.sf.rails.game.*;
+import net.sf.rails.game.financial.Bank;
+import net.sf.rails.game.financial.PublicCertificate;
+import net.sf.rails.game.financial.StockSpace;
 import net.sf.rails.game.special.SellBonusToken;
 import net.sf.rails.game.state.ArrayListMultimapState;
 import net.sf.rails.game.state.ArrayListState;
@@ -73,14 +76,6 @@ public class CGRFormationRound extends SwitchableUIRound {
         cgr = (PublicCompany_CGR) getRoot().getCompanyManager().getPublicCompany(PublicCompany_CGR.NAME);
     }
     
-    @Override
-    /** This class needs the game status window to show up
-     * rather than the operating round window.
-     */
-    public Class<? extends Round> getRoundTypeForUI () {
-        return StockRound.class;
-    }
-
     public void start (Player startingPlayer) {
 
         // store starting player
@@ -813,6 +808,87 @@ public class CGRFormationRound extends SwitchableUIRound {
         return true;
     }
 
+    protected boolean exchangeTokens(ExchangeTokens action, boolean linkedMoveSet) {
+
+        String errMsg = null;
+
+        List<ExchangeableToken> tokens = action.getTokensToExchange();
+        int min = action.getMinNumberToExchange();
+        int max = action.getMaxNumberToExchange();
+        int exchanged = 0;
+
+        checks: {
+
+            for (ExchangeableToken token : tokens) {
+                if (token.isSelected()) exchanged++;
+            }
+            if (exchanged < min || exchanged > max) {
+                errMsg = LocalText.getText("WrongNumberOfTokensExchanged",
+                        action.getCompany(),
+                        min, max, exchanged);
+                break checks;
+            }
+        }
+
+        if (errMsg != null) {
+            DisplayBuffer.add(this, LocalText.getText("CannotExchangeTokens",
+                    action.getCompany(),
+                    action.toString(),
+                    errMsg));
+
+            return false;
+        }
+
+        
+        // FIMXE: if (linkedMoveSet) changeStack.linkToPreviousMoveSet();
+
+        if (exchanged > 0) {
+            MapHex hex;
+            Stop stop;
+            String stopName, hexName;
+            int stationNumber;
+            String[] ct;
+            PublicCompany comp = action.getCompany();
+
+            ReportBuffer.add(this, "");
+
+            for (ExchangeableToken token : tokens) {
+                stopName = token.getCityName();
+                ct = stopName.split("/");
+                hexName = ct[0];
+                try {
+                    stationNumber = Integer.parseInt(ct[1]);
+                } catch (NumberFormatException e) {
+                    stationNumber = 1;
+                }
+                hex = mapManager.getHex(hexName);
+                stop = hex.getRelatedStop(stationNumber);
+
+                if (token.isSelected()) {
+
+                    // For now we'll assume that the old token(s) have already been removed.
+                    // This is true in the 1856 CGR formation.
+                    if (hex.layBaseToken(comp, stop)) {
+                        /* TODO: the false return value must be impossible. */
+                        ReportBuffer.add(this, LocalText.getText("ExchangesBaseToken",
+                                comp.getId(),
+                                token.getOldCompanyName(),
+                                stop.getSpecificId()));
+                        comp.layBaseToken(hex, 0);
+                    }
+                } else {
+                    ReportBuffer.add(this, LocalText.getText("NoBaseTokenExchange",
+                            comp.getId(),
+                            token.getOldCompanyName(),
+                            stop.getSpecificId()));
+                }
+            }
+        }
+
+        return true;
+    }
+
+    
     public List<PublicCompany> getMergingCompanies() {
         return mergingCompanies.view();
     }

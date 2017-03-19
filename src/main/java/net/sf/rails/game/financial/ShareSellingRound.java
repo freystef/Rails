@@ -1,4 +1,4 @@
-package net.sf.rails.game;
+package net.sf.rails.game.financial;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -7,7 +7,13 @@ import java.util.List;
 import rails.game.action.PossibleAction;
 import rails.game.action.SellShares;
 import net.sf.rails.common.*;
+import net.sf.rails.game.GameDef;
+import net.sf.rails.game.GameManager;
+import net.sf.rails.game.Player;
+import net.sf.rails.game.PublicCompany;
+import net.sf.rails.game.GameDef.Parm;
 import net.sf.rails.game.model.PortfolioModel;
+import net.sf.rails.game.round.RoundFacade;
 import net.sf.rails.game.state.Currency;
 import net.sf.rails.game.state.IntegerState;
 
@@ -15,7 +21,7 @@ import net.sf.rails.game.state.IntegerState;
 // TODO: Check if un-initialized states cause undo problems
 public class ShareSellingRound extends StockRound {
 
-    protected Round parentRound;
+    protected RoundFacade parentRound;
     protected Player sellingPlayer;
     protected IntegerState cashToRaise; // intialized later
     protected PublicCompany cashNeedingCompany;
@@ -26,12 +32,14 @@ public class ShareSellingRound extends StockRound {
     /**
      * Created using Configure
      */
+    // change: ShareSellingRound is not really a (full) Round, only a single player acting
+    // requires: make an independent Round for EnforcedSelling that uses the selling shares activity
     public ShareSellingRound(GameManager parent, String id) {
         super(parent, id);
         guiHints.setActivePanel(GuiDef.Panel.STATUS);
     }
 
-    public void start(Round parentRound, Player sellingPlayer, int cashToRaise,
+    public void start(RoundFacade parentRound, Player sellingPlayer, int cashToRaise,
             PublicCompany cashNeedingCompany, boolean dumpOtherCompaniesAllowed) {
         log.info("Share selling round started, player="
                 +sellingPlayer.getId()+" cash="+cashToRaise);
@@ -108,7 +116,7 @@ public class ShareSellingRound extends StockRound {
             /* May not sell more than the Pool can accept */
             maxShareToSell =
                 Math.min(maxShareToSell,
-                        getGameParameterAsInt(GameDef.Parm.POOL_SHARE_LIMIT)
+                        GameDef.getGameParameterAsInt(this, GameDef.Parm.POOL_SHARE_LIMIT)
                         - pool.getShare(company));
             if (maxShareToSell == 0) continue;
 
@@ -268,7 +276,7 @@ public class ShareSellingRound extends StockRound {
 
             // The pool may not get over its limit.
             if (pool.getShare(company) + numberToSell * company.getShareUnit()
-                    > getGameParameterAsInt(GameDef.Parm.POOL_SHARE_LIMIT)) {
+                    > GameDef.getGameParameterAsInt(this, GameDef.Parm.POOL_SHARE_LIMIT)) {
                 errMsg = LocalText.getText("PoolOverHoldLimit");
                 break;
             }

@@ -7,6 +7,8 @@ import net.sf.rails.common.LocalText;
 import net.sf.rails.common.ReportBuffer;
 import net.sf.rails.common.parser.ConfigurationException;
 import net.sf.rails.common.parser.Tag;
+import net.sf.rails.game.financial.Bank;
+import net.sf.rails.game.financial.Certificate;
 import net.sf.rails.game.special.SellBonusToken;
 import net.sf.rails.game.special.SpecialProperty;
 import net.sf.rails.game.state.BooleanState;
@@ -574,9 +576,6 @@ public class PrivateCompany extends RailsOwnableItem<PrivateCompany> implements 
     }
 
     // Certificate Interface
-    public String getName() {
-        return getId();
-    }
 
     public float getCertificateCount() {
         return certificateCount;
@@ -596,7 +595,7 @@ public class PrivateCompany extends RailsOwnableItem<PrivateCompany> implements 
     // Item interface
     @Override
     public String toText() {
-        return getName();
+        return getId();
     }
     
 }

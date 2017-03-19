@@ -11,6 +11,9 @@ import javax.swing.*;
 
 import net.sf.rails.common.LocalText;
 import net.sf.rails.game.*;
+import net.sf.rails.game.financial.Bank;
+import net.sf.rails.game.financial.StockMarket;
+import net.sf.rails.game.financial.StockSpace;
 import net.sf.rails.game.special.SpecialProperty;
 import net.sf.rails.sound.SoundManager;
 import net.sf.rails.ui.swing.elements.*;
@@ -818,12 +821,7 @@ implements ActionListener, KeyListener, ActionPerformer, DialogOwner {
         return RailsIcon.INFO.smallIcon;
     }
 
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_F1) {
-            HelpWindow.displayHelp(gameUIManager.getHelp());
-            e.consume();
-        }
-    }
+    public void keyPressed(KeyEvent e) {}
 
     public void keyReleased(KeyEvent e) {}
 

@@ -9,6 +9,7 @@ import net.sf.rails.common.GuiDef;
 import net.sf.rails.common.LocalText;
 import net.sf.rails.common.ReportBuffer;
 import net.sf.rails.game.*;
+import net.sf.rails.game.financial.Bank;
 import net.sf.rails.game.special.SellBonusToken;
 import net.sf.rails.game.special.SpecialProperty;
 import net.sf.rails.game.state.BooleanState;
@@ -303,7 +304,7 @@ public class OperatingRound_1856 extends OperatingRound {
     @Override
     protected void setGameSpecificPossibleActions() {
         // Take a loan
-        if (getCurrentPhase().isLoanTakingAllowed()
+        if (Phase.getCurrent(this).isLoanTakingAllowed()
             && operatingCompany.value().canLoan()
             && (loansThisRound == null
                 || !loansThisRound.containsKey(operatingCompany.value())
@@ -357,11 +358,11 @@ public class OperatingRound_1856 extends OperatingRound {
     @Override
     public boolean buyTrain(BuyTrain action) {
 
-        Phase prePhase = getCurrentPhase();
+        Phase prePhase = Phase.getCurrent(this);
 
         boolean result = super.buyTrain(action);
 
-        Phase postPhase = getCurrentPhase();
+        Phase postPhase = Phase.getCurrent(this);
 
         if (postPhase != prePhase) {
             if (postPhase.getId().equals("6")) {

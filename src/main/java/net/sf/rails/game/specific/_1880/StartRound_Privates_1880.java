@@ -9,9 +9,9 @@ import net.sf.rails.common.LocalText;
 import net.sf.rails.common.ReportBuffer;
 import net.sf.rails.game.GameManager;
 import net.sf.rails.game.Player;
-import net.sf.rails.game.PublicCertificate;
-import net.sf.rails.game.Bank;
 import net.sf.rails.game.StartItem;
+import net.sf.rails.game.financial.Bank;
+import net.sf.rails.game.financial.PublicCertificate;
 import net.sf.rails.game.state.Currency;
 import net.sf.rails.game.state.GenericState;
 import rails.game.action.PossibleAction;
@@ -40,7 +40,7 @@ public class StartRound_Privates_1880 extends StartRound_Sequential {
             
             pendingCertificate.value().moveTo(player);
             ReportBuffer.add(this, LocalText.getText("ALSO_GETS", player.getId(),
-                    pendingCertificate.value().getName()));
+                    pendingCertificate.value().toText()));
             
             PublicCompany_1880 company =
                     (PublicCompany_1880) castAction.getCompany();

@@ -14,13 +14,13 @@ import rails.game.action.PossibleAction;
 import net.sf.rails.common.DisplayBuffer;
 import net.sf.rails.common.LocalText;
 import net.sf.rails.common.ReportBuffer;
-import net.sf.rails.game.Bank;
 import net.sf.rails.game.GameDef;
 import net.sf.rails.game.GameManager;
-import net.sf.rails.game.PublicCertificate;
 import net.sf.rails.game.PublicCompany;
-import net.sf.rails.game.StockRound;
 import net.sf.rails.game.Train;
+import net.sf.rails.game.financial.Bank;
+import net.sf.rails.game.financial.PublicCertificate;
+import net.sf.rails.game.financial.StockRound;
 import net.sf.rails.game.specific._1837.FinalCoalExchangeRound;
 import net.sf.rails.game.state.ArrayListState;
 import net.sf.rails.game.state.BooleanState;
@@ -199,7 +199,7 @@ public class StockRound_1837 extends StockRound {
             companyBoughtThisTurnWrapper.set(major);
 
             // If >60% shares owned, lift sell obligation this round.
-            if (currentPlayer.getPortfolioModel().getShare(major) > getGameParameterAsInt(GameDef.Parm.PLAYER_SHARE_LIMIT)) {
+            if (currentPlayer.getPortfolioModel().getShare(major) > GameDef.getGameParameterAsInt(this, GameDef.Parm.PLAYER_SHARE_LIMIT)) {
                 setSellObligationLifted(major);
             }
 
